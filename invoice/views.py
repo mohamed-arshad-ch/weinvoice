@@ -10,5 +10,12 @@ class CreateInventory(CreateModelMixin,generics.GenericAPIView):
     serializer_class = InventorySerializer
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.save()
+
+        return Response({
+            "data": InventorySerializer(data, context=self.get_serializer_context()).data,
+            "status": "success"
+            })
 
