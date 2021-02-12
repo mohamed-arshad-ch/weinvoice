@@ -5,7 +5,8 @@ from django.db import models
 class Inventory(models.Model):
     name = models.CharField(max_length=150,blank=False,null=False)
     hsn = models.CharField(max_length=150,blank=True,null=True)
-    price = models.FloatField(blank=False,null=False)
+    base_price = models.FloatField(blank=False,null=False)
+    sales_price =  models.FloatField(blank=False,null=False)
     stock = models.IntegerField(blank=False,null=False)
     store_id = models.CharField(max_length=150,blank=False,null=False)
     unit = models.CharField(max_length=150,blank=False,null=False)
