@@ -2,8 +2,10 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from .serializers import *
+
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 from  rest_framework.mixins import CreateModelMixin
 # Create your views here.
 
@@ -66,3 +68,17 @@ class SearchInventory(generics.ListAPIView):
 
         return Response({"data":serializer.data,"status":"success"})
 
+class SortInventory(generics.ListAPIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    search_fields = ['store_id']
+    ordering_fields = ['date_created']
+
+    
+    
+        
+
+    
