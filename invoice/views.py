@@ -69,8 +69,8 @@ class SortInventory(generics.ListAPIView):
     pagination_class.page_size_query_param = 'limit'
     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
     print(filter_backends)
-    search_fields = ['store_id','name','hsn']
-    ordering_fields = ['date_created','hsn']
+    search_fields = ['store_id','name','hsn','base_price','sales_price','stock','store_id','unit']
+    ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
     
     
 
