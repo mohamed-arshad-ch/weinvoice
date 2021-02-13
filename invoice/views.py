@@ -34,25 +34,19 @@ class UpdateInventory(generics.UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.name = request.data.get("name")
-        instance.hsn = request.data.get("hsn")
-        instance.base_price = request.data.get("base_price")
-        instance.sales_price = request.data.get("sales_price")
-        instance.stock = request.data.get("stock")
-        instance.store_id = request.data.get("store_id")
-        instance.unit = request.data.get("unit")
-        instance.save()
+        
 
-        serializer = self.get_serializer(instance)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.save()
+        serializer = InventorySerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+        
 
         return Response({"data":serializer.data,"status":"success"})
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
-        return Response({"message":"deleted Successfully","status":"success"})
+        return Response({"status":"success","message":"deleted Successfully","status":"success"})
     
 
 class SearchInventory(generics.ListAPIView):
@@ -74,8 +68,11 @@ class SortInventory(generics.ListAPIView):
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
-    search_fields = ['store_id']
-    ordering_fields = ['date_created']
+    print(filter_backends)
+    search_fields = ['store_id','name','hsn']
+    ordering_fields = ['date_created','hsn']
+    
+    
 
     
     
