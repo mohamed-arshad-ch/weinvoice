@@ -113,8 +113,8 @@ class UpdateForCustomer(generics.UpdateAPIView):
     queryset = Customer.objects.all()
     def get(self,request,*args,**kwargs):
         try:
-            snippet = Customer.objects.get(pk=kwargs['pk'])
-            serializer = CustomerSerializer(snippet)
+            queryset = Customer.objects.get(pk=kwargs['pk'])
+            serializer = CustomerSerializer(queryset)
             
             
             return Response({"data":serializer.data,"status":"success"})

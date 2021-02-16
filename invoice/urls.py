@@ -14,7 +14,7 @@ urlpatterns = [
 
     path('api/v1/customer/delete/<str:pk>',UpdateForCustomer.as_view(),name="deleteinventory"),
     path('api/v1/customer/search',PartialSearch.as_view(),name="searchinventory"),
-    path('api/v1/customer/read/all',SortForCustomer.as_view(),name="sortcustomer"),
+    path('api/v1/customer/all',SortForCustomer.as_view(),name="sortcustomer"),
 
 
 
