@@ -49,37 +49,20 @@ class UpdateInventory(generics.UpdateAPIView):
         return Response({"status":"success","message":"deleted Successfully","status":"success"})
     
 
-class SearchInventory(generics.ListAPIView):
-    queryset = Inventory.objects.all()
-    serializer_class = InventorySerializer
+# class SearchInventory(generics.ListAPIView):
+#     queryset = Inventory.objects.all()
+#     serializer_class = InventorySerializer
 
-    def get(self,request,*args,**kwargs):
-        queryset = Inventory.objects.all()
-        name = request.GET.get('name','')
-        instance = get_object_or_404(queryset,name=name)
-        serializer = self.get_serializer(instance)
+#     def get(self,request,*args,**kwargs):
+#         queryset = Inventory.objects.all()
+#         name = request.GET.get('name','')
+#         instance = get_object_or_404(queryset,name=name)
+#         serializer = self.get_serializer(instance)
         
 
-        return Response({"data":serializer.data,"status":"success"})
+#         return Response({"data":serializer.data,"status":"success"})
 
 
-# class TaskFilter(FilterSet):
-#     owner_id = NumberFilter(name='employee_owner__id')
-#     doer_id = NumberFilter(name='employee_doer__id')
-#     both_id = NumberFilter(method='filter_both')
-
-#     class Meta:
-#         model = Task
-#         fields = {
-#             'owner_id',
-#             'doer_id',
-#             'both_id' 
-#         }
-
-#     def filter_both(self, queryset, name, value):
-#         return queryset.filter(
-#             Q(employee_owner__id=value) | Q(employee_doer__id=value)
-#         )
 
 
 class SortInventory(generics.ListAPIView):
@@ -94,9 +77,14 @@ class SortInventory(generics.ListAPIView):
     # print(filter_backends)
     # search_fields = ['store_id','name','hsn','base_price','sales_price','stock','store_id','unit']
     ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
-    
-    
 
+class PartialSearch(generics.ListAPIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
+    
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    print(filter_backends)
+    search_fields = ['name']
     
     
         

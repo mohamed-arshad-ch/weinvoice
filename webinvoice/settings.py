@@ -139,6 +139,7 @@ STATIC_URL = '/static/'
 django_heroku.settings(locals())
 
 REST_FRAMEWORK = {
+    'SEARCH_PARAM':'name',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE':1,
