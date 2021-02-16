@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from .serializers import *
-
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
@@ -62,14 +62,37 @@ class SearchInventory(generics.ListAPIView):
 
         return Response({"data":serializer.data,"status":"success"})
 
+
+# class TaskFilter(FilterSet):
+#     owner_id = NumberFilter(name='employee_owner__id')
+#     doer_id = NumberFilter(name='employee_doer__id')
+#     both_id = NumberFilter(method='filter_both')
+
+#     class Meta:
+#         model = Task
+#         fields = {
+#             'owner_id',
+#             'doer_id',
+#             'both_id' 
+#         }
+
+#     def filter_both(self, queryset, name, value):
+#         return queryset.filter(
+#             Q(employee_owner__id=value) | Q(employee_doer__id=value)
+#         )
+
+
 class SortInventory(generics.ListAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
-    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
-    print(filter_backends)
-    search_fields = ['store_id','name','hsn','base_price','sales_price','stock','store_id','unit']
+    
+    # filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    # print(filter_backends)
+    # search_fields = ['store_id','name','hsn','base_price','sales_price','stock','store_id','unit']
     ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
     
     
