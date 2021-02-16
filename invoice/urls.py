@@ -8,6 +8,16 @@ urlpatterns = [
     path('api/v1/inventory/all',SortInventory.as_view(),name="sortinventory"),
     
 
+    path('api/v1/customer/create',CreateForCustomer.as_view(),name="createcustomer"),
+    path('api/v1/customer/update/<str:pk>',UpdateForCustomer.as_view(),name="updatecustomer"),
+    path('api/v1/customer/read/<str:pk>',UpdateForCustomer.as_view(),name="updatecustomer"),
+
+    path('api/v1/customer/delete/<str:pk>',UpdateForCustomer.as_view(),name="deleteinventory"),
+    path('api/v1/customer/search',PartialSearch.as_view(),name="searchinventory"),
+    path('api/v1/customer/read/all',SortForCustomer.as_view(),name="sortcustomer"),
+
+
+
 
     
 ]
