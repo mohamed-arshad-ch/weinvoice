@@ -89,7 +89,7 @@ class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         
         
-        to_return = []
+        to_return = {}
         if serializer.is_valid():
             data = serializer.save()
             return Response({
@@ -98,8 +98,8 @@ class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
             })
         else:
             vva = serializer.errors
-            to_return.append({"staus":"error"})
-            to_return.append(vva)
+            to_return['message'] = vva
+            to_return['status'] = "Error"
 
             
             return Response(to_return)
