@@ -87,31 +87,25 @@ class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
     serializer_class = CustomerSerializer
 
     def post(self, request, *args, **kwargs):
+        
         serializer = self.get_serializer(data=request.data)
-        if not serializer.is_valid(raise_exception=False):
-            return Response({"Fail": "blablal"})
-
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response({"Success": "msb blablabla"},  headers=headers)
-        # serializer = self.get_serializer(data=request.data)
         
         
-        # to_return = {}
-        # if serializer.is_valid():
-        #     data = serializer.save()
-        #     return Response({
-        #     "data": CustomerSerializer(data, context=self.get_serializer_context()).data,
-        #     "status": "success"
-        #     })
-        # else:
-        #     vva = serializer.errors
-        #     to_return['data'] = vva
-        #     # print(vva['name'].ErrorDetail[0])
-        #     to_return['status'] = "Error"
+        to_return = {}
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({
+            "data": CustomerSerializer(data, context=self.get_serializer_context()).data,
+            "status": "success"
+            })
+        else:
+            vva = serializer.errors
+            to_return['data'] = vva
+            # print(vva['name'].ErrorDetail[0])
+            to_return['status'] = "Error"
 
             
-        #     return Response(to_return)
+            return Response(to_return)
 
 
         
