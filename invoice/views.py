@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from .serializers import *
+from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -87,23 +88,30 @@ class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid(raise_exception=False):
+            return Response({"Fail": "blablal"})
+
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"Success": "msb blablabla"},  headers=headers)
+        # serializer = self.get_serializer(data=request.data)
         
         
-        to_return = {}
-        if serializer.is_valid():
-            data = serializer.save()
-            return Response({
-            "data": CustomerSerializer(data, context=self.get_serializer_context()).data,
-            "status": "success"
-            })
-        else:
-            vva = serializer.errors
-            to_return['data'] = vva
-            # print(vva['name'].ErrorDetail[0])
-            to_return['status'] = "Error"
+        # to_return = {}
+        # if serializer.is_valid():
+        #     data = serializer.save()
+        #     return Response({
+        #     "data": CustomerSerializer(data, context=self.get_serializer_context()).data,
+        #     "status": "success"
+        #     })
+        # else:
+        #     vva = serializer.errors
+        #     to_return['data'] = vva
+        #     # print(vva['name'].ErrorDetail[0])
+        #     to_return['status'] = "Error"
 
             
-            return Response(to_return)
+        #     return Response(to_return)
 
 
         
