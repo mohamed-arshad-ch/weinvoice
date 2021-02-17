@@ -98,7 +98,8 @@ class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
             })
         else:
             vva = serializer.errors
-            to_return['message'] = vva
+            to_return['data'] = vva
+            # print(vva['name'].ErrorDetail[0])
             to_return['status'] = "Error"
 
             
