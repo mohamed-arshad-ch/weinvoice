@@ -22,7 +22,7 @@ class Customer(models.Model):
     date_time_created = models.DateTimeField(auto_now_add=True)
 
     name = models.CharField(max_length=150,blank=False,null=False)
-    logo = models.ImageField()
+    logo = models.CharField(max_length=150,blank=True,null=True)
     address = models.CharField(max_length=150,blank=True,null=True)
     city = models.CharField(max_length=150,blank=True,null=True)
     location = models.CharField(max_length=150,blank=True,null=True)
