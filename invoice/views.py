@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
+from rest_framework.views import APIView
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
@@ -174,4 +175,97 @@ class PartialSearchForCustomer(generics.ListAPIView):
     
         
 
+class CreateForInvoice(generics.CreateAPIView):
+    queryset =Invoice.objects.all()
+    serializer_class = InvoiceWriteSerializer
     
+    def post(self, request, *args, **kwargs):
+        
+        serializer = self.get_serializer(data=request.data)
+        
+        to_return = {}
+        if serializer.is_valid():
+            data = serializer.save()
+            print(data)
+            return Response({
+            "data": InvoiceReadSerializer(data, context=self.get_serializer_context()).data,
+            "status": "success"
+            })
+        else:
+            vva = serializer.errors
+            to_return['data'] = vva
+            # print(vva['name'].ErrorDetail[0])
+            to_return['status'] = "Error"
+
+            
+            return Response(to_return)
+
+
+class ReadOfInvoice(APIView):
+    
+
+
+
+    def get(self,request,*args,**kwargs):
+        try:
+            to_return = {}
+            invoice = Invoice.objects.get(pk=kwargs['pk'])
+            movies_serializer = InvoiceReadSerializer(invoice)
+            to_return['data'] = movies_serializer.data
+            to_return['status'] = "Success"
+            return Response(to_return)
+        except Invoice.DoesNotExist:
+            return Response({"data":"No Data Availabel","status":"Error"})
+
+
+class UpdateForInvoice(generics.UpdateAPIView):
+    serializer_class = InvoiceWriteSerializer
+    queryset = Invoice.objects.all()
+    def get(self,request,*args,**kwargs):
+        try:
+            queryset = Invoice.objects.get(pk=kwargs['pk'])
+            serializer = InvoiceReadSerializer(queryset)
+            
+            
+            return Response({"data":serializer.data,"status":"success"})
+        except Invoice.DoesNotExist:
+            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+
+        serializer = InvoiceWriteSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({"data":InvoiceReadSerializer(data, context=self.get_serializer_context()).data,"status":"success"})
+        else:
+            errorr = serializer.errors
+            errorr['status'] = "Error"
+
+            return Response(errorr)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"status":"success","message":"deleted Successfully","status":"success"})
+
+
+class SortForInvoice(generics.ListAPIView):
+    queryset = Invoice.objects.all()
+    serializer_class = InvoiceReadSerializer
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = "__all__"
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    
+    
+    ordering_fields = "__all__"
+
+class PartialSearchForInvoice(generics.ListAPIView):
+    queryset = Invoice.objects.all()
+    serializer_class = InvoiceReadSerializer
+    
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    
+    search_fields = ['customer_name__name']
