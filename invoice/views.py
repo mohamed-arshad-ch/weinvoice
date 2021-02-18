@@ -268,4 +268,4 @@ class PartialSearchForInvoice(generics.ListAPIView):
     
     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
     
-    search_fields = ['customer_name__name']
+    search_fields = ['customer__name']

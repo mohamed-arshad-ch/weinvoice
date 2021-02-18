@@ -40,7 +40,7 @@ class Customer(models.Model):
 class Invoice(models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_time_created = models.DateTimeField(auto_now_add=True)
-    customer_name = models.ForeignKey(Customer,related_name="customer",on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer,related_name="customer",on_delete=models.CASCADE)
     company_name = models.CharField(max_length=150,blank=False,null=False)
     comapny_address = models.CharField(max_length=150,blank=False,null=False)
     company_city = models.CharField(max_length=150,blank=False,null=False)
