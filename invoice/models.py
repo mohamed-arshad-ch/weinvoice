@@ -72,7 +72,7 @@ class Invoice(models.Model):
 class Compony(models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_time_created = models.DateTimeField(auto_now_add=True)
-    compony_name = models.CharField(max_length=150)
+    company_name = models.CharField(max_length=150)
     comapny_address = models.CharField(max_length=150)
     company_city = models.CharField(max_length=150)
     company_location = models.CharField(max_length=150)
