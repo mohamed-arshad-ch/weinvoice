@@ -83,7 +83,7 @@ class Compony(models.Model):
     company_email = models.CharField(max_length=150)
     company_phone = models.CharField(max_length=150)
     company_logo = models.TextField()
-    company_signature = models.CharField(max_length=150)
+    company_signature = models.TextField()
     company_admin = models.CharField(max_length=150)
     company_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])
 
