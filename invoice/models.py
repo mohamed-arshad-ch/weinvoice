@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 # Create your models here.
 
 class Inventory(models.Model):
@@ -35,12 +35,17 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
+class OrderItems(models.Model):
+    product = models.ForeignKey(Inventory,on_delete=models.CASCADE)
+    qty = models.IntegerField()
 
+    def __str__(self):
+        return str(self.id)
 
 class Invoice(models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_time_created = models.DateTimeField(auto_now_add=True)
-    customer = models.ForeignKey(Customer,related_name="customer",on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer,related_name="customer",on_delete=models.CASCADE,null=True,blank=True)
     company_name = models.CharField(max_length=150,blank=False,null=False)
     comapny_address = models.CharField(max_length=150,blank=False,null=False)
     company_city = models.CharField(max_length=150,blank=False,null=False)
@@ -52,7 +57,7 @@ class Invoice(models.Model):
     company_email = models.EmailField()
     company_phone = models.CharField(max_length=150,blank=False,null=False)
     company_logo = models.TextField()
-    product_list = models.ManyToManyField(Inventory,related_name="product")
+    product_list = models.ManyToManyField(OrderItems,related_name="orderitems")
     due_amount  = models.FloatField()
     sgst = models.FloatField()
     cgst = models.FloatField()
@@ -62,3 +67,20 @@ class Invoice(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class Compony(models.Model):
+    compony_name = models.CharField(max_length=150)
+    comapny_address = models.CharField(max_length=150)
+    company_city = models.CharField(max_length=150)
+    company_location = models.CharField(max_length=150)
+    company_pin = models.CharField(max_length=150)
+    company_district = models.CharField(max_length=150)
+    company_satate = models.CharField(max_length=150)
+    company_gstin = models.CharField(max_length=150)
+    company_email = models.CharField(max_length=150)
+    company_phone = models.CharField(max_length=150)
+    company_logo = models.TextField()
+    company_signature = models.CharField(max_length=150)
+    company_admin = models.CharField(max_length=150)
+    company_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])

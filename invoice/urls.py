@@ -24,6 +24,12 @@ urlpatterns = [
     path('api/v1/invoice/all',SortForInvoice.as_view(),name="sortcustomer"),
 
 
+    path('api/v1/compony/create',CreateForCompony.as_view(),name="createinvoice"),
+    path('api/v1/compony/update/<str:pk>',UpdateForCompony.as_view(),name="updatecustomer"),
+    path('api/v1/compony/read/<str:pk>',UpdateForCompony.as_view(),name="updatecustomer"),
+    path('api/v1/compony/delete/<str:pk>',UpdateForCompony.as_view(),name="deleteinventory"),
+
+
 
 
     

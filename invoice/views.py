@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
+from .sortconroll import *
 from rest_framework.views import APIView
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
@@ -181,25 +182,23 @@ class CreateForInvoice(generics.CreateAPIView):
     
     def post(self, request, *args, **kwargs):
         
-        serializer = self.get_serializer(data=request.data)
-        
         to_return = {}
-        if serializer.is_valid():
-            data = serializer.save()
-            print(data)
-            return Response({
-            "data": InvoiceReadSerializer(data, context=self.get_serializer_context()).data,
-            "status": "success"
-            })
-        else:
-            vva = serializer.errors
-            to_return['data'] = vva
-            # print(vva['name'].ErrorDetail[0])
-            to_return['status'] = "Error"
+        controller = CreateInvoiceController(data=request.data)
+        createddata = controller.create()
+        
+        movies_serializer = InvoiceReadSerializer(createddata)
+        to_return['data'] = movies_serializer.data
+        to_return['status'] = "Success"
+        return Response(to_return)
+       
 
-            
-            return Response(to_return)
 
+
+
+
+
+
+       
 
 class ReadOfInvoice(APIView):
     
@@ -269,3 +268,168 @@ class PartialSearchForInvoice(generics.ListAPIView):
     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
     
     search_fields = ['customer__name']
+
+
+
+class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+    def post(self, request, *args, **kwargs):
+        
+        serializer = self.get_serializer(data=request.data)
+        
+        
+        to_return = {}
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({
+            "data": CustomerSerializer(data, context=self.get_serializer_context()).data,
+            "status": "success"
+            })
+        else:
+            vva = serializer.errors
+            to_return['data'] = vva
+            # print(vva['name'].ErrorDetail[0])
+            to_return['status'] = "Error"
+
+            
+            return Response(to_return)
+
+
+        
+    
+
+class UpdateForCustomer(generics.UpdateAPIView):
+    serializer_class = CustomerSerializer
+    queryset = Customer.objects.all()
+    def get(self,request,*args,**kwargs):
+        try:
+            queryset = Customer.objects.get(pk=kwargs['pk'])
+            serializer = CustomerSerializer(queryset)
+            
+            
+            return Response({"data":serializer.data,"status":"success"})
+        except Snippet.DoesNotExist:
+            return Response({"status":"error"},status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+
+        serializer = CustomerSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({"data":serializer.data,"status":"success"})
+        else:
+            errorr = serializer.errors
+            errorr['status'] = "Error"
+
+            return Response(errorr)
+        
+
+        
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"status":"success","message":"deleted Successfully","status":"success"})
+    
+
+
+
+
+
+class SortForCustomer(generics.ListAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = ['date_time_created','date_created', 'name','address','city','location','pincode','state','country','district','gst_number','gst_type','email','phone']
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    
+    
+    ordering_fields = ['date_time_created','date_created', 'name','address','city','location','pincode','state','country','district','gst_number','gst_type','email','phone']
+
+class PartialSearchForCustomer(generics.ListAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    
+    search_fields = ['name']
+    
+    
+    
+        
+
+class CreateForCompony(generics.CreateAPIView):
+    queryset =Compony.objects.all()
+    serializer_class = ComponySerializer
+    
+    def post(self, request, *args, **kwargs):
+        
+        serializer = self.get_serializer(data=request.data)
+        
+        
+        to_return = {}
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({
+            "data": ComponySerializer(data, context=self.get_serializer_context()).data,
+            "status": "success"
+            })
+        else:
+            vva = serializer.errors
+            to_return['data'] = vva
+            # print(vva['name'].ErrorDetail[0])
+            to_return['status'] = "Error"
+
+            
+            return Response(to_return)
+       
+
+
+
+
+
+
+
+       
+
+
+
+
+class UpdateForCompony(generics.UpdateAPIView):
+    serializer_class = ComponySerializer
+    queryset = Compony.objects.all()
+    def get(self,request,*args,**kwargs):
+        try:
+            queryset = Compony.objects.get(pk=kwargs['pk'])
+            serializer = ComponySerializer(queryset)
+            
+            
+            return Response({"data":serializer.data,"status":"success"})
+        except Compony.DoesNotExist:
+            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+
+        serializer = ComponySerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({"data":ComponySerializer(data, context=self.get_serializer_context()).data,"status":"success"})
+        else:
+            errorr = serializer.errors
+            errorr['status'] = "Error"
+
+            return Response(errorr)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"status":"success","message":"deleted Successfully","status":"success"})
+
+

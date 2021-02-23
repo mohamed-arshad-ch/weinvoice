@@ -35,7 +35,7 @@ class InvoiceReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
         fields = "__all__"
-        depth = 1
+        depth = 2
 
 
 class InvoiceWriteSerializer(serializers.ModelSerializer):
@@ -43,4 +43,11 @@ class InvoiceWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
         fields = "__all__"
+
+class ComponySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Compony
+        fields = "__all__"
+        
         
