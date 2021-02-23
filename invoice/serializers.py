@@ -49,5 +49,13 @@ class ComponySerializer(serializers.ModelSerializer):
     class Meta:
         model = Compony
         fields = "__all__"
-        
-        
+
+class ExcelConvert(serializers.Serializer):
+    files = serializers.FileField()
+
+
+class TaxSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaxGroup
+        fields = "__all__"

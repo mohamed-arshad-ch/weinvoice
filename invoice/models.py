@@ -70,6 +70,8 @@ class Invoice(models.Model):
 
 
 class Compony(models.Model):
+    date_created = models.DateField(auto_now_add=True)
+    date_time_created = models.DateTimeField(auto_now_add=True)
     compony_name = models.CharField(max_length=150)
     comapny_address = models.CharField(max_length=150)
     company_city = models.CharField(max_length=150)
@@ -84,3 +86,14 @@ class Compony(models.Model):
     company_signature = models.CharField(max_length=150)
     company_admin = models.CharField(max_length=150)
     company_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])
+
+
+class TaxGroup(models.Model):
+    date_created = models.DateField(auto_now_add=True)
+    date_time_created = models.DateTimeField(auto_now_add=True)
+    hsn_code = models.CharField(max_length=150)
+    hsn_sgst = models.CharField(max_length=150)
+    hsn_cgst = models.CharField(max_length=150)
+    hsn_sess = models.CharField(max_length=150)
+    hsn_others = models.CharField(max_length=150)
+    hsn_user_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])

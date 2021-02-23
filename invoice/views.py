@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from  rest_framework.mixins import CreateModelMixin
+from pandas import *
 # Create your views here.
 
 class CreateInventory(CreateModelMixin,generics.GenericAPIView):
@@ -432,4 +433,98 @@ class UpdateForCompony(generics.UpdateAPIView):
         instance.delete()
         return Response({"status":"success","message":"deleted Successfully","status":"success"})
 
+class ExcelConvert(generics.CreateAPIView):
+    serializer_class = ExcelConvert
+    def post(self,request):
+        xls = ExcelFile('static/tests-example.xls')
+        data = xls.parse(xls.sheet_names[0])
+        # print(data.to_dict())
+        full = data.to_dict()
 
+        for i in full:
+            
+            
+            for j in range(len(full[i])):
+                print(full['id'][j])
+    
+
+class CreateForTax(generics.CreateAPIView):
+    queryset =TaxGroup.objects.all()
+    serializer_class = TaxSerializer
+    
+    def post(self, request, *args, **kwargs):
+        
+        serializer = self.get_serializer(data=request.data)
+        
+        
+        to_return = {}
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({
+            "data": TaxSerializer(data, context=self.get_serializer_context()).data,
+            "status": "success"
+            })
+        else:
+            vva = serializer.errors
+            to_return['data'] = vva
+            # print(vva['name'].ErrorDetail[0])
+            to_return['status'] = "Error"
+
+            
+            return Response(to_return)
+       
+
+
+
+
+
+
+
+       
+
+
+
+
+class UpdateForTax(generics.UpdateAPIView):
+    serializer_class = TaxSerializer
+    queryset = TaxGroup.objects.all()
+    def get(self,request,*args,**kwargs):
+        try:
+            queryset = TaxGroup.objects.get(pk=kwargs['pk'])
+            serializer = TaxSerializer(queryset)
+            
+            
+            return Response({"data":serializer.data,"status":"success"})
+        except TaxGroup.DoesNotExist:
+            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+
+        serializer = TaxSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({"data":TaxSerializer(data, context=self.get_serializer_context()).data,"status":"success"})
+        else:
+            errorr = serializer.errors
+            errorr['status'] = "Error"
+
+            return Response(errorr)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"status":"success","message":"deleted Successfully","status":"success"})
+
+
+class SortForTax(generics.ListAPIView):
+    queryset = TaxGroup.objects.all()
+    serializer_class = TaxSerializer
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_sess','hsn_others','hsn_user_id']
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    
+    
+    ordering_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_sess','hsn_others','hsn_user_id']
