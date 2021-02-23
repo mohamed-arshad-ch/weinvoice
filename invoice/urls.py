@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/v1/company/create',CreateForCompony.as_view(),name="createinvoice"),
     path('api/v1/company/update/<str:pk>',UpdateForCompony.as_view(),name="updatecustomer"),
     path('api/v1/company/read/<str:pk>',UpdateForCompony.as_view(),name="updatecustomer"),
+    path('api/v1/company/all',SortForCompany.as_view(),name="sortcustomer"),
     path('api/v1/company/delete/<str:pk>',UpdateForCompony.as_view(),name="deleteinventory"),
 
     path('api/v1/excel/create',ExcelConvert.as_view(),name="deleteinventory"),

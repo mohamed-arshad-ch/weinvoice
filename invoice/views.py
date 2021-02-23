@@ -433,6 +433,17 @@ class UpdateForCompony(generics.UpdateAPIView):
         instance.delete()
         return Response({"status":"success","message":"deleted Successfully","status":"success"})
 
+        
+class SortForCompany(generics.ListAPIView):
+    queryset = Compony.objects.all()
+    serializer_class = ComponySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['company_id','company_admin']
+
+
+
+
+
 class ExcelConvert(generics.CreateAPIView):
     serializer_class = ExcelConvert
     def post(self,request):
