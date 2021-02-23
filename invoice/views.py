@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from  rest_framework.mixins import CreateModelMixin
-from pandas import *
+# from pandas import *
 # Create your views here.
 
 class CreateInventory(CreateModelMixin,generics.GenericAPIView):
@@ -436,16 +436,17 @@ class UpdateForCompony(generics.UpdateAPIView):
 class ExcelConvert(generics.CreateAPIView):
     serializer_class = ExcelConvert
     def post(self,request):
-        xls = ExcelFile('static/tests-example.xls')
-        data = xls.parse(xls.sheet_names[0])
-        # print(data.to_dict())
-        full = data.to_dict()
+        pass
+        # xls = ExcelFile('static/tests-example.xls')
+        # data = xls.parse(xls.sheet_names[0])
+        # # print(data.to_dict())
+        # full = data.to_dict()
 
-        for i in full:
+        # for i in full:
             
             
-            for j in range(len(full[i])):
-                print(full['id'][j])
+        #     for j in range(len(full[i])):
+        #         print(full['id'][j])
     
 
 class CreateForTax(generics.CreateAPIView):
