@@ -1,6 +1,22 @@
 from django.db import models
 import uuid
+
+from django.contrib.auth.models import AbstractUser
+
 # Create your models here.
+class CustomUser(AbstractUser):
+    
+    phone = models.CharField(max_length=150,null=True,blank=True)
+    subscription_plan = models.CharField(max_length=100,null=True,blank=True)
+    subscription_start = models.DateField(auto_now_add=True)
+    subscription_end = models.DateField(null=True,blank=True)
+    subscription_status = models.BooleanField(default=False)
+    user_status = models.BooleanField(blank=False,null=False,default=True)
+    unique_id = models.CharField(max_length=100,default=str(uuid.uuid4())[:8],primary_key=True)
+    
+    def __str__(self):
+        return self.unique_id
+
 
 class Inventory(models.Model):
     date_created = models.DateField(auto_now_add=True)

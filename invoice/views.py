@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
+from knox.models import AuthToken
 from .sortconroll import *
 from rest_framework.views import APIView
 from rest_framework import status
@@ -433,7 +434,7 @@ class UpdateForCompony(generics.UpdateAPIView):
         instance.delete()
         return Response({"status":"success","message":"deleted Successfully","status":"success"})
 
-        
+
 class SortForCompany(generics.ListAPIView):
     queryset = Compony.objects.all()
     serializer_class = ComponySerializer
@@ -540,3 +541,25 @@ class SortForTax(generics.ListAPIView):
     
     
     ordering_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_sess','hsn_others','hsn_user_id']
+
+class PartialSearchForTax(generics.ListAPIView):
+    queryset = TaxGroup.objects.all()
+    serializer_class = TaxSerializer
+    
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    
+    search_fields = ['hsn_code']
+
+
+
+class RegisterAPI(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+        "user": UserSerializer(user, context=self.get_serializer_context()).data,
+        "token": AuthToken.objects.create(user)[1]
+        })

@@ -38,6 +38,13 @@ urlpatterns = [
     path('api/v1/tax/read/<str:pk>',UpdateForTax.as_view(),name="updatecustomer"),
     path('api/v1/tax/delete/<str:pk>',UpdateForTax.as_view(),name="deleteinventory"),
     path('api/v1/tax/all',SortForTax.as_view(),name="sortcustomer"),
+    path('api/v1/tax/search',PartialSearchForTax.as_view(),name="searchinventory"),
+
+    path('api/v1/user/create',RegisterAPI.as_view(),name="createinvoice"),
+    path('api/v1/user/update/<str:pk>',UpdateForTax.as_view(),name="updatecustomer"),
+    path('api/v1/user/read/<str:pk>',UpdateForTax.as_view(),name="updatecustomer"),
+    path('api/v1/user/delete/<str:pk>',UpdateForTax.as_view(),name="deleteinventory"),
+    path('api/v1/user/all',SortForTax.as_view(),name="sortcustomer"),
 
 
 
