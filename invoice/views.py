@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .serializers import *
 from knox.models import AuthToken
 from .sortconroll import *
+from django.contrib.auth import login
 from rest_framework.views import APIView
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
@@ -11,6 +12,9 @@ from django.shortcuts import get_object_or_404
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from  rest_framework.mixins import CreateModelMixin
+from rest_framework import permissions
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from knox.views import LoginView as KnoxLoginView
 # from pandas import *
 # Create your views here.
 
@@ -563,3 +567,61 @@ class RegisterAPI(generics.GenericAPIView):
         "user": UserSerializer(user, context=self.get_serializer_context()).data,
         "token": AuthToken.objects.create(user)[1]
         })
+
+
+class LoginAPI(KnoxLoginView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        print(request.data)
+        try:
+            user = CustomUser.objects.get(phone=request.data['phone'],password=request.data['password'])
+            login(request,user)
+            return super(LoginAPI, self).post(request, format=None)
+        except CustomUser.DoesNotExist:
+            return Response({"data":"Invalid UserName And Password","Type":"Error"})
+
+
+class UpdateForUser(generics.UpdateAPIView):
+    serializer_class = UserAllSerializer
+    queryset = CustomUser.objects.all()
+    def get(self,request,*args,**kwargs):
+        try:
+            queryset = CustomUser.objects.get(pk=kwargs['pk'])
+            serializer = UserAllSerializer(queryset)
+            
+            
+            return Response({"data":serializer.data,"status":"success"})
+        except CustomUser.DoesNotExist:
+            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+
+        serializer = UserAllSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({"data":UserAllSerializer(data, context=self.get_serializer_context()).data,"status":"success"})
+        else:
+            errorr = serializer.errors
+            errorr['status'] = "Error"
+
+            return Response(errorr)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"status":"success","message":"deleted Successfully","status":"success"})
+
+
+class SortForUser(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserAllSerializer
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = ['phone','subscription_plan', 'subscription_start','subscription_end','subscription_status','user_status','unique_id','email','first_name','last_name']
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    
+    
+    ordering_fields = ['phone','subscription_plan', 'subscription_start','subscription_end','subscription_status','user_status','unique_id','email','first_name','last_name']

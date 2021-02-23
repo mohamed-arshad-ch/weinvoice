@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from knox import views as knox_views
 urlpatterns = [
     path('api/v1/inventory/create',CreateInventory.as_view(),name="createinventory"),
     path('api/v1/inventory/update/<str:pk>',UpdateInventory.as_view(),name="updateinventory"),
@@ -41,11 +42,12 @@ urlpatterns = [
     path('api/v1/tax/search',PartialSearchForTax.as_view(),name="searchinventory"),
 
     path('api/v1/user/create',RegisterAPI.as_view(),name="createinvoice"),
-    path('api/v1/user/update/<str:pk>',UpdateForTax.as_view(),name="updatecustomer"),
-    path('api/v1/user/read/<str:pk>',UpdateForTax.as_view(),name="updatecustomer"),
-    path('api/v1/user/delete/<str:pk>',UpdateForTax.as_view(),name="deleteinventory"),
-    path('api/v1/user/all',SortForTax.as_view(),name="sortcustomer"),
-
+    path('api/v1/user/update/<str:pk>',UpdateForUser.as_view(),name="updatecustomer"),
+    path('api/v1/user/read/<str:pk>',UpdateForUser.as_view(),name="updatecustomer"),
+    path('api/v1/user/delete/<str:pk>',UpdateForUser.as_view(),name="deleteinventory"),
+    path('api/v1/user/all',SortForUser.as_view(),name="sortcustomer"),
+    path('api/v1/user/login/', LoginAPI.as_view(), name='login'),
+    path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
 
 
 

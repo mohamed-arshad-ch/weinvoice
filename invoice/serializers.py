@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from django.core.exceptions import ValidationError
-from datetime import date
+import datetime 
 
 
 class InventorySerializer(serializers.ModelSerializer):
@@ -65,7 +65,7 @@ class TaxSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('unique_id','first_name','last_name', 'phone', 'email','subscription_plan','subscription_start','subscription_end','subscription_status','user_status')
+        fields = ( 'unique_id','phone','email','password')
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
@@ -76,8 +76,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        today = date.today()
-        
-        user = CustomUser.objects.create(username=validated_data['phone'],first_name=validated_data['first_name'],last_name=validated_data['last_name'],phone=validated_data['phone'],email=validated_data['email'],subscription_plan=validated_data['subscription_plan'])
+        today = datetime.date.today()
+        numertime = validated_data['numberofdate']
+        enddate =  today + datetime.timedelta(days=numertime)
+        user = CustomUser.objects.create(username=validated_data['phone'],first_name=validated_data['first_name'],last_name=validated_data['last_name'],phone=validated_data['phone'],email=validated_data['email'],subscription_plan=validated_data['subscription_plan'],subscription_end=enddate)
+        user.set_password(validated_data['password'])
 
         return user
+
+class UserAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = "__all__"
+        extra_kwargs = {'password': {'write_only': True}}
