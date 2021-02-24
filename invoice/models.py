@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
     subscription_status = models.BooleanField(default=True)
     user_status = models.BooleanField(blank=False,null=False,default=True)
     unique_id = models.CharField(max_length=100,default=str(uuid.uuid4())[:8],primary_key=True)
-    
+    token = models.TextField()
     def __str__(self):
         return self.phone
 

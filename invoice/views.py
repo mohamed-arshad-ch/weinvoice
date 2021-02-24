@@ -3,6 +3,7 @@ from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
 from knox.models import AuthToken
+from knox.models import AuthToken
 from django.contrib.auth import authenticate
 from .sortconroll import *
 from django.contrib.auth import login
@@ -602,7 +603,13 @@ class LoginAPI(KnoxLoginView):
         print(user)
         if user is not None:
             login(request,user)
-            return super(LoginAPI, self).post(request, format=None)
+            newdd = super(LoginAPI, self).post(request, format=None)
+            print(newdd.data['token'])
+            newdd.data['status'] = "Success"
+            newu = CustomUser.objects.get(username=request.data['phone'])
+            newu.token = newdd.data['token']
+            newu.save()
+            return newdd
         else:
             return Response({"data":"Invalid UserName And Password","status":"Error"})
         # try:
@@ -656,3 +663,23 @@ class SortForUser(generics.ListAPIView):
     
     
     ordering_fields = ['phone','subscription_plan', 'subscription_start','subscription_end','subscription_status','user_status','unique_id','email','first_name','last_name']
+
+
+class SortForToken(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserAllSerializer
+    
+    def get(self,request):
+        token = request.GET.get('token',None)
+        
+        try:
+            userii = CustomUser.objects.get(token=token)
+            
+            print(userii)
+            serializer = UserAllSerializer(userii)
+
+            return Response({"data":True,"status":"success"})
+        except CustomUser.DoesNotExist:
+            return Response({"data":False,"status":"Error"})
+
+
