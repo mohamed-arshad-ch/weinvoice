@@ -683,3 +683,21 @@ class SortForToken(generics.ListAPIView):
             return Response({"data":False,"status":"Error"})
 
 
+class ReadForToken(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserAllSerializer
+    
+    def get(self,request):
+        token = request.GET.get('token',None)
+        
+        try:
+            userii = CustomUser.objects.get(token=token)
+            
+            print(userii)
+            serializer = UserAllSerializer(userii)
+
+            return Response({"data":serializer.data,"status":"success"})
+        except CustomUser.DoesNotExist:
+            return Response({"data":"Invalid User","status":"Error"})
+
+
