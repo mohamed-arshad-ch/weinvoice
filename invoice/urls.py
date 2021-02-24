@@ -48,6 +48,8 @@ urlpatterns = [
     path('api/v1/user/all',SortForUser.as_view(),name="sortcustomer"),
     path('api/v1/user/login/', LoginAPI.as_view(), name='login'),
     path('api/v1/user/is_login', SortForToken.as_view(), name='login'),
+    path('api/v1/user/read', ReadForToken.as_view(), name='login'),
+
     path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
 
 
