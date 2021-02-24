@@ -563,9 +563,9 @@ class RegisterAPI(generics.GenericAPIView):
         
         try:
             usern = CustomUser.objects.get(phone=request.data['phone'])
-            print(usern)
+            
             if usern is not None:
-                print("hi")
+                
                 return Response({"data":"User Already Exist","status":"Error"})
             else:
                 serializer = self.get_serializer(data=request.data)
@@ -579,13 +579,17 @@ class RegisterAPI(generics.GenericAPIView):
         except CustomUser.DoesNotExist:
 
             serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            user = serializer.save()
-            return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            "token": AuthToken.objects.create(user)[1],
-            "status":"Success"
-            })  
+            # serializer.is_valid(raise_exception=True)
+            if serializer.is_valid():
+
+                user = serializer.save()
+                return Response({
+                "user": UserSerializer(user, context=self.get_serializer_context()).data,
+                "token": AuthToken.objects.create(user)[1],
+                "status":"Success"
+                },status=status.HTTP_200_OK)
+            else:
+                return Response({"data":['Passsword Not Match'],"status":"Error"},status=status.HTTP_200_OK)
 
 
 class LoginAPI(KnoxLoginView):
