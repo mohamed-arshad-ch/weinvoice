@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
     subscription_plan = models.CharField(max_length=100,null=True,blank=True)
     subscription_start = models.DateField(auto_now_add=True)
     subscription_end = models.DateField(null=True,blank=True)
-    subscription_status = models.BooleanField(default=False)
+    subscription_status = models.BooleanField(default=True)
     user_status = models.BooleanField(blank=False,null=False,default=True)
     unique_id = models.CharField(max_length=100,default=str(uuid.uuid4())[:8],primary_key=True)
     
@@ -79,7 +79,7 @@ class Invoice(models.Model):
     cgst = models.FloatField()
     status = models.BooleanField()
     invoice_type = models.CharField(max_length=150,blank=False,null=False)
-    digital_signature = models.CharField(max_length=150,blank=False,null=False)
+    digital_signature = models.TextField()
 
     def __str__(self):
         return str(self.id)
