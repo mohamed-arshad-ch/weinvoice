@@ -323,7 +323,7 @@ class UpdateForCustomer(generics.UpdateAPIView):
             
             return Response({"data":serializer.data,"status":"success"})
         except Snippet.DoesNotExist:
-            return Response({"status":"error"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"status":"error"},status=status.HTTP_200_OK)
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -356,12 +356,12 @@ class SortForCustomer(generics.ListAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_time_created','date_created', 'name','address','city','location','pincode','state','country','district','gst_number','gst_type','email','phone']
+    filterset_fields = ['date_time_created','date_created', 'name','address','city','location','pincode','state','country','district','gst_number','gst_type','email','phone','store_id']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = ['date_time_created','date_created', 'name','address','city','location','pincode','state','country','district','gst_number','gst_type','email','phone']
+    ordering_fields = ['date_time_created','date_created', 'name','address','city','location','pincode','state','country','district','gst_number','gst_type','email','phone','store_id']
 
 class PartialSearchForCustomer(generics.ListAPIView):
     queryset = Customer.objects.all()

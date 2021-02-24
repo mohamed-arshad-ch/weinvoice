@@ -48,6 +48,7 @@ class Customer(models.Model):
     gst_type = models.CharField(max_length=150,blank=True,null=True)
     email = models.EmailField()
     phone = models.CharField(max_length=150,null=True,blank=True)
+    store_id = models.CharField(max_length=150,null=True,blank=True)
 
     def __str__(self):
         return self.name
