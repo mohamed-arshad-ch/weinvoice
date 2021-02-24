@@ -66,23 +66,37 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ( 'unique_id','phone','email','password')
+        extra_kwargs = {'password': {'write_only': True}}
+
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     numberofdate = serializers.IntegerField()
+    confirmpassword = serializers.CharField()
     class Meta:
         model = CustomUser
-        fields = ('numberofdate','unique_id', 'phone','first_name','last_name', 'email','subscription_plan','subscription_start','subscription_end','subscription_status','user_status','password')
+        fields = ('numberofdate', 'phone','first_name','last_name', 'email','subscription_plan','password','confirmpassword')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         today = datetime.date.today()
         numertime = validated_data['numberofdate']
         enddate =  today + datetime.timedelta(days=numertime)
+       
+
         user = CustomUser.objects.create(username=validated_data['phone'],first_name=validated_data['first_name'],last_name=validated_data['last_name'],phone=validated_data['phone'],email=validated_data['email'],subscription_plan=validated_data['subscription_plan'],subscription_end=enddate)
         user.set_password(validated_data['password'])
 
         return user
+       
+
+    def validate_password(self,data):
+        data = self.get_initial()
+        password1 = data.get("password")
+        password2 = data.get("confirmpassword")
+        if password1 != password2:
+            raise ValidationError("Password Not Match")
+        return password1            
 
 class UserAllSerializer(serializers.ModelSerializer):
     class Meta:
