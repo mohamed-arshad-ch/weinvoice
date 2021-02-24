@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
     unique_id = models.CharField(max_length=100,default=str(uuid.uuid4())[:8],primary_key=True)
     
     def __str__(self):
-        return self.unique_id
+        return self.phone
 
 
 class Inventory(models.Model):

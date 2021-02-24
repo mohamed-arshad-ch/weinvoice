@@ -3,6 +3,7 @@ from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
 from knox.models import AuthToken
+from django.contrib.auth import authenticate
 from .sortconroll import *
 from django.contrib.auth import login
 from rest_framework.views import APIView
@@ -597,12 +598,19 @@ class LoginAPI(KnoxLoginView):
 
     def post(self, request, format=None):
         print(request.data)
-        try:
-            user = CustomUser.objects.get(phone=request.data['phone'],password=request.data['password'])
+        user = authenticate(username=request.data['phone'], password=request.data['password'])
+        print(user)
+        if user is not None:
             login(request,user)
             return super(LoginAPI, self).post(request, format=None)
-        except CustomUser.DoesNotExist:
-            return Response({"data":"Invalid UserName And Password","Type":"Error"})
+        else:
+            return Response({"data":"Invalid UserName And Password","status":"Error"})
+        # try:
+        #     user = CustomUser.objects.get(phone=request.data['phone'],password=request.data['password'])
+        #     login(request,user)
+        #     return super(LoginAPI, self).post(request, format=None)
+        # except CustomUser.DoesNotExist:
+        #     return Response({"data":"Invalid UserName And Password","Type":"Error"})
 
 
 class UpdateForUser(generics.UpdateAPIView):
