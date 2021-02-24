@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from django.core.exceptions import ValidationError
 import datetime 
+import uuid
 
 
 class InventorySerializer(serializers.ModelSerializer):
@@ -83,8 +84,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         numertime = validated_data['numberofdate']
         enddate =  today + datetime.timedelta(days=numertime)
        
-
-        user = CustomUser.objects.create(username=validated_data['phone'],first_name=validated_data['first_name'],last_name=validated_data['last_name'],phone=validated_data['phone'],email=validated_data['email'],subscription_plan=validated_data['subscription_plan'],subscription_end=enddate)
+    
+        user = CustomUser.objects.create(unique_id=str(uuid.uuid4())[:8],username=validated_data['phone'],first_name=validated_data['first_name'],last_name=validated_data['last_name'],phone=validated_data['phone'],email=validated_data['email'],subscription_plan=validated_data['subscription_plan'],subscription_end=enddate)
         user.set_password(validated_data['password'])
 
         return user
@@ -96,7 +97,19 @@ class RegisterSerializer(serializers.ModelSerializer):
         password2 = data.get("confirmpassword")
         if password1 != password2:
             raise ValidationError("Password Not Match")
-        return password1            
+        return password1 
+
+    def validate_user(self,data):
+        data = self.get_initial()
+        phone = data.get("phone")
+        
+        user = CustomUser.objects.get(phone=phone)
+        if user is not None:
+            raise ValidationError("User Already Exist")
+        else:
+            return phone
+     
+                
 
 class UserAllSerializer(serializers.ModelSerializer):
     class Meta:
