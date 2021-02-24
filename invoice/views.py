@@ -2,6 +2,10 @@ from django.shortcuts import render
 from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
+from django.template.loader import get_template
+from django.http import HttpResponse
+from django.views.generic import View
+from invoice.utils import render_to_pdf
 from knox.models import AuthToken
 from knox.models import AuthToken
 from django.contrib.auth import authenticate
@@ -419,7 +423,7 @@ class UpdateForCompony(generics.UpdateAPIView):
             
             return Response({"data":serializer.data,"status":"success"})
         except Compony.DoesNotExist:
-            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"data":"Company Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -700,4 +704,24 @@ class ReadForToken(generics.ListAPIView):
         except CustomUser.DoesNotExist:
             return Response({"data":"Invalid User","status":"Error"})
 
-
+class GeneratePDF(View):
+    def get(self, request, *args, **kwargs):
+        template = get_template('invoice.html')
+        context = {
+            "invoice_id": 123,
+            "customer_name": "John Cooper",
+            "amount": 1399.99,
+            "today": "Today",
+        }
+        html = template.render(context)
+        pdf = render_to_pdf('invoice.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "Invoice_%s.pdf" %("12341231")
+            content = "inline; filename='%s'" %(filename)
+            download = True
+            if download:
+                content = "attachment; filename='%s'" %(filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")
