@@ -423,7 +423,7 @@ class UpdateForCompony(generics.UpdateAPIView):
             
             return Response({"data":serializer.data,"status":"success"})
         except Compony.DoesNotExist:
-            return Response({"data":"Company Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"data":"Company Not Exist","status":"error"},status=status.HTTP_200_OK)
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -519,7 +519,7 @@ class UpdateForTax(generics.UpdateAPIView):
             
             return Response({"data":serializer.data,"status":"success"})
         except TaxGroup.DoesNotExist:
-            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_200_OK)
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
