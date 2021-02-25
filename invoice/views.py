@@ -98,14 +98,26 @@ class PartialSearch(generics.ListAPIView):
     serializer_class = InventorySerializer
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
-    filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter]
+    # filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter]
     
     
    
-    filterset_fields = ['stock']
-    search_fields = ['store_id']
+    # filterset_fields = ['stock']
+    # search_fields = ['store_id']
 
+    def get(self,request):
+        store_id = request.GET.get('store_id')
+        name = request.GET.get('name')
 
+        instance = Inventory.objects.filter(store_id__contains=store_id,name=name)
+        
+        print(instance)
+        if instance.exists():
+            
+            serializer = InventorySerializer(instance,many=True)
+            return Response({"data":serializer.data,"status":"success"})
+        else:
+            return Response({"data":"error","status":"error"})
 
 
 class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
