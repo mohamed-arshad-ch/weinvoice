@@ -46,7 +46,7 @@ class Customer(models.Model):
     district = models.CharField(max_length=150,blank=True,null=True)
     gst_number = models.CharField(max_length=150,blank=False,null=False)
     gst_type = models.CharField(max_length=150,blank=True,null=True)
-    email = models.EmailField()
+    email = models.EmailField(null=True,blank=True)
     phone = models.CharField(max_length=150,null=True,blank=True)
     store_id = models.CharField(max_length=150,null=True,blank=True)
 
