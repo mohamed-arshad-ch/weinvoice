@@ -81,6 +81,7 @@ class Invoice(models.Model):
     status = models.BooleanField()
     invoice_type = models.CharField(max_length=150,blank=False,null=False)
     digital_signature = models.TextField()
+    pdf = models.FileField(upload_to='pdfs/')
 
     def __str__(self):
         return str(self.id)

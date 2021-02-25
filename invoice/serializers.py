@@ -38,12 +38,16 @@ class InvoiceReadSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 2
 
+    
+
 
 class InvoiceWriteSerializer(serializers.ModelSerializer):
    
     class Meta:
         model = Invoice
         fields = "__all__"
+    
+        read_only_fields = ('pdf',)
 
 class ComponySerializer(serializers.ModelSerializer):
 

@@ -2,6 +2,10 @@ from django.shortcuts import render
 from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
+import  os
+from django.core.files import File
+from io import BytesIO
+from django.conf import settings as django_settings
 from django.template.loader import get_template
 from django.http import HttpResponse
 from django.views.generic import View
@@ -200,7 +204,11 @@ class CreateForInvoice(generics.CreateAPIView):
         
         movies_serializer = InvoiceReadSerializer(createddata)
         to_return['data'] = movies_serializer.data
+
         to_return['status'] = "Success"
+        
+        pdfs = generate_obj_pdf(movies_serializer.data['id'],request)
+        to_return['pdf_url'] = pdfs
         return Response(to_return)
        
 
@@ -224,6 +232,9 @@ class ReadOfInvoice(APIView):
             movies_serializer = InvoiceReadSerializer(invoice)
             to_return['data'] = movies_serializer.data
             to_return['status'] = "Success"
+            HOSTNAME = request.META['HTTP_HOST']
+            url = '{0}/static/img/{1}'.format(HOSTNAME,invoice.pdf)
+            to_return['pdf_url'] = url
             return Response(to_return)
         except Invoice.DoesNotExist:
             return Response({"data":"No Data Availabel","status":"Error"})
@@ -236,20 +247,22 @@ class UpdateForInvoice(generics.UpdateAPIView):
         try:
             queryset = Invoice.objects.get(pk=kwargs['pk'])
             serializer = InvoiceReadSerializer(queryset)
+            HOSTNAME = request.META['HTTP_HOST']
+            url = '{0}/static/img/{1}'.format(HOSTNAME,queryset.pdf)
             
             
-            return Response({"data":serializer.data,"status":"success"})
+            return Response({"data":serializer.data,"status":"success","pdf_url":url})
         except Invoice.DoesNotExist:
             return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
+        pdfs = generate_obj_pdf(instance.id,request)
         
-
         serializer = InvoiceWriteSerializer(instance, data=request.data, partial=True)
         if serializer.is_valid():
             data = serializer.save()
-            return Response({"data":InvoiceReadSerializer(data, context=self.get_serializer_context()).data,"status":"success"})
+            return Response({"data":InvoiceReadSerializer(data, context=self.get_serializer_context()).data,"status":"success","pdf_url":pdfs})
         else:
             errorr = serializer.errors
             errorr['status'] = "Error"
@@ -704,24 +717,16 @@ class ReadForToken(generics.ListAPIView):
         except CustomUser.DoesNotExist:
             return Response({"data":"Invalid User","status":"Error"})
 
-class GeneratePDF(View):
-    def get(self, request, *args, **kwargs):
-        template = get_template('invoice.html')
-        context = {
-            "invoice_id": 123,
-            "customer_name": "John Cooper",
-            "amount": 1399.99,
-            "today": "Today",
-        }
-        html = template.render(context)
-        pdf = render_to_pdf('invoice.html', context)
-        if pdf:
-            response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Invoice_%s.pdf" %("12341231")
-            content = "inline; filename='%s'" %(filename)
-            download = True
-            if download:
-                content = "attachment; filename='%s'" %(filename)
-            response['Content-Disposition'] = content
-            return response
-        return HttpResponse("Not found")
+
+def generate_obj_pdf(instance_id,request):
+     obj = Invoice.objects.get(id=instance_id)
+     context = {'instance': obj}
+     pdf = render_to_pdf('invoice.html', context)
+     filename = 'Invoice_%s.pdf'%str(obj.id)
+     obj.pdf.save(filename, File(BytesIO(pdf.content)))
+     print(obj.pdf)
+     HOSTNAME = request.META['HTTP_HOST']
+     url = '{0}/static/img/{1}'.format(HOSTNAME,obj.pdf)
+     
+     
+     return url
