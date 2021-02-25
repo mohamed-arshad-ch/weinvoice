@@ -3,8 +3,11 @@ from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
 import  os
+from webinvoice import settings as newsetting
+
 from django.core.files import File
 from io import BytesIO
+
 from django.conf import settings as django_settings
 from django.template.loader import get_template
 from django.http import HttpResponse
@@ -90,12 +93,17 @@ class SortInventory(generics.ListAPIView):
     ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
 
 class PartialSearch(generics.ListAPIView):
+    
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter]
     
-    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    
    
-    search_fields = ['name']
+    filterset_fields = ['stock']
+    search_fields = ['store_id']
 
 
 
