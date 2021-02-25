@@ -48,6 +48,7 @@ class InvoiceWriteSerializer(serializers.ModelSerializer):
         fields = "__all__"
     
         read_only_fields = ('pdf',)
+        
 
 class ComponySerializer(serializers.ModelSerializer):
 
