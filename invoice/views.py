@@ -109,7 +109,7 @@ class PartialSearch(generics.ListAPIView):
         store_id = request.GET.get('store_id')
         name = request.GET.get('name')
 
-        instance = Inventory.objects.filter(store_id__contains=store_id,name=name)
+        instance = Inventory.objects.filter(name__contains=name,store_id=store_id)
         
         print(instance)
         if instance.exists():
