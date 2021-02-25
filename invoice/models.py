@@ -69,9 +69,10 @@ class Invoice(models.Model):
     company_location = models.CharField(max_length=150,blank=False,null=False)
     company_pin = models.CharField(max_length=150,blank=False,null=False)
     company_district = models.CharField(max_length=150,blank=False,null=False)
-    company_state = models.CharField(max_length=150,blank=False,null=False)
+    company_satate = models.CharField(max_length=150,blank=False,null=False)
     company_gstin = models.CharField(max_length=150,blank=False,null=False)
     company_email = models.EmailField()
+    company_gst_type = models.CharField(max_length=150,blank=True,null=True)
     company_phone = models.CharField(max_length=150,blank=False,null=False)
     company_logo = models.TextField()
     product_list = models.ManyToManyField(OrderItems,related_name="orderitems")
@@ -80,7 +81,7 @@ class Invoice(models.Model):
     cgst = models.FloatField()
     status = models.BooleanField()
     invoice_type = models.CharField(max_length=150,blank=False,null=False)
-    digital_signature = models.TextField()
+    company_signature = models.TextField()
     pdf = models.FileField(upload_to='pdfs/')
 
     def __str__(self):
