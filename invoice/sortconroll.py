@@ -12,7 +12,7 @@ class CreateInvoiceController:
         address = self.data['address']
         cgst = self.data['cgst']
         city = self.data['city']
-        company_address = self.data['company_address']
+        comapny_address = self.data['comapny_address']
         company_city = self.data['company_city']
         company_district = self.data['company_district']
         company_email = self.data['company_email']
@@ -43,7 +43,7 @@ class CreateInvoiceController:
         invoice = Invoice()
         invoice.customer = cust
         invoice.company_name = company_name
-        invoice.comapny_address = company_address
+        invoice.comapny_address = comapny_address
         invoice.company_city = company_city
         invoice.company_location = company_location
         invoice.company_pin = company_pincode
@@ -66,13 +66,26 @@ class CreateInvoiceController:
             inventory = get_object_or_404(Inventory,id=i['id'])
             orderitem = OrderItems.objects.create(product=inventory,qty=i['qty'])
             oj = get_object_or_404(OrderItems,id=orderitem.id)
+<<<<<<< HEAD
             print(orderitem.id)
+=======
+            
+>>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
             invoice.product_list.add(OrderItems.objects.get(id=orderitem.id))
             stock_manage=self.stock_control(inventory,orderitem.qty)
         return invoice
         
+<<<<<<< HEAD
+=======
+        
+>>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
     def stock_control(self,instance,quatity):
         print(instance.stock)
         print(quatity)
         instance.stock-=quatity
         instance.save()
+<<<<<<< HEAD
+=======
+
+        
+>>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994

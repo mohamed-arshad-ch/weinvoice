@@ -3,9 +3,16 @@ from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
 import  os
+<<<<<<< HEAD
 from django.core.paginator import Paginator
+=======
+from rest_framework import filters
+from webinvoice import settings as newsetting
+from datetime import date
+>>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
 from django.core.files import File
 from io import BytesIO
+
 from django.conf import settings as django_settings
 from django.template.loader import get_template
 from django.http import HttpResponse
@@ -93,14 +100,31 @@ class SortInventory(generics.ListAPIView):
     ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
 
 class PartialSearch(generics.ListAPIView):
+    
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    # filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter]
     
-    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    
    
-    search_fields = ['name']
+    # filterset_fields = ['stock']
+    # search_fields = ['store_id']
 
+    def get(self,request):
+        store_id = request.GET.get('store_id')
+        name = request.GET.get('name')
 
+        instance = Inventory.objects.filter(name__icontains=name,store_id=store_id)
+        
+        print(instance)
+        if instance.exists():
+            
+            serializer = InventorySerializer(instance,many=True)
+            return Response({"data":serializer.data,"status":"success"})
+        else:
+            return Response({"data":"error","status":"error"})
 
 
 class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
@@ -282,7 +306,7 @@ class SortForInvoice(generics.ListAPIView):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceReadSerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_created','customer__name','company_name','comapny_address','company_city','company_location','company_pin','company_district','company_state','company_gstin','company_email','company_phone','company_logo','product_list','due_amount','sgst','cgst','status','invoice_type']
+    filterset_fields = ['date_created','customer__name','company_name','comapny_address','company_city','company_location','company_pin','company_district','company_satate','company_gstin','company_email','company_phone','company_logo','product_list','due_amount','sgst','cgst','status','invoice_type']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
@@ -730,8 +754,7 @@ def generate_obj_pdf(instance_id,request):
      print(obj.pdf)
      HOSTNAME = request.META['HTTP_HOST']
      url = '{0}/static/img/{1}'.format(HOSTNAME,obj.pdf)
-     
-     
+
      return url
 
 
@@ -739,22 +762,58 @@ class InvoiceReportFilter(generics.GenericAPIView):
     queryset= Invoice.objects.all()
     serializer_class= InvoiceReadSerializer
     
+<<<<<<< HEAD
     def get(self, request):
         name=request.GET.get("name")
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
         instance= Invoice.objects.filter(date_created__range=[fromdate, todate], invoice_type=name)
 
+=======
+    def get(self, reclass InventoryList(generics.GenericAPIView):
+    queryset=Inventory.objects.all()
+    serializer_class=InventorySerializer
+    def get(self, request):
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        inventory=Inventory.objects.filter(date_created__range=[fromdate, todate])
+        a=self.paginate_queryset(inventory)
+        if inventory.exists():
+            serializer=InventorySerializer(a, many=True)
+            
+            return Response({"data":serializer.data, "status":"success"})
+        else:
+            return Response({"data":"data not available", "status":"error"})
+quest):
+        name=request.GET.get("name")
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        
+
+        instance= Invoice.objects.filter(date_created__range=[fromdate, todate], invoice_type=name)
+>>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
         total=0
         for i in instance:
             total+=i.due_amount
         print(total)
+<<<<<<< HEAD
         if instance.exists():
             serializer= InvoiceReadSerializer(instance, many=True)
             return Response({"data":serializer.data,"sales_price":total,"status":"success"})
         else:
             return Response({"data":"data not available", "status":"error"})
 
+=======
+
+        if instance.exists():
+            serializer= InvoiceReadSerializer(instance, many=True)
+            return Response({"data":serializer.data,"sales_price":total,"status":"success"})
+
+        else:
+            return Response({"data":"data not available", "status":"error"})
+
+
+>>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
 class InventoryList(generics.GenericAPIView):
     queryset=Inventory.objects.all()
     serializer_class=InventorySerializer
