@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Home</title>
@@ -237,66 +237,22 @@
 </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="container">
-          <div class="logo-1">
-    
-          </div>
-          <div class="logo-2">
-    
-          </div>
-          <div class="company-details">
-            <label for="" class="name"></label>
-            <label for="" class="address"></label>
-          </div>
-        </div>
-        <div class="green-strip">
-          <label for="" class="invoice">INVOICE</label>
-        </div>
-        <div class="container">
-          <div class="invoice-to">
-            <label for="" class="title">Invoice to:</label>
-            <label for="" class="name"></label>
-            <label for="" class="address"></label>
-          </div>
-          <div class="invoice-details">
-            <label for="" class="title"><span>Invoice #</span></label>
-            <label for="" class="name"><span>Date</span></label>
-          </div>
-    
-          <div class="table">
-            <div class="table-head">
-              <div class="col-1">Sl</div>
-              <div class="col-4">Item Description</div>
-              <div class="col-2">Price</div>
-              <div class="col-2">Qty.</div>
-              <div class="col-2">Total</div>
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign In</h5>
+                    <form class="form-signin">
+                        <div class="form-label-group"> <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus> <label for="inputEmail">Email address</label> </div>
+                        <div class="form-label-group"> <input type="password" id="inputPassword" class="form-control" placeholder="Password" required> <label for="inputPassword">Password</label> </div>
+                        <div class="custom-control custom-checkbox mb-3"> <input type="checkbox" class="custom-control-input" id="customCheck1"> <label class="custom-control-label" for="customCheck1">Remember password?</label> </div> <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                        <hr class="my-4"> <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button> <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+                    </form>
+                </div>
             </div>
-    
-            <div class="table-item">
-              <div class="col-1"></div>
-              <div class="col-4"> </div>
-              <div class="col-2">₹ </div>
-              <div class="col-2"></div>
-              <div class="col-2">₹ </div>
-            </div>
-    
-          </div>
-          <label for="" class="thank-message">Thank you for your business</label>
-          <div class="invoice-to">
-            <label for="" class="title">Terms & Conditions</label>
-            <label for="" class="address">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</label>
-          </div>
-          <div class="mb-20"></div>
-          <div class="invoice-details">
-            <label for="" class="title"><span>Sub Total</span>₹ </label>
-            <label for="" class="name"><span>Tax</span>%</label>
-            <label for="" class="name"><span>Delivery charge</span>₹ </label>
-          </div>
-          <div class="green-total">
-            <label for="" class="title">Total<span>₹ </span></label>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 </body>
 </html>
