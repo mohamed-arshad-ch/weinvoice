@@ -12,7 +12,7 @@ class CreateInvoiceController:
         address = self.data['address']
         cgst = self.data['cgst']
         city = self.data['city']
-        company_address = self.data['company_address']
+        comapny_address = self.data['comapny_address']
         company_city = self.data['company_city']
         company_district = self.data['company_district']
         company_email = self.data['company_email']
@@ -43,7 +43,7 @@ class CreateInvoiceController:
         invoice = Invoice()
         invoice.customer = cust
         invoice.company_name = company_name
-        invoice.comapny_address = company_address
+        invoice.comapny_address = comapny_address
         invoice.company_city = company_city
         invoice.company_location = company_location
         invoice.company_pin = company_pincode
