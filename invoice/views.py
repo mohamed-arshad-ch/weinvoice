@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate
 from .sortconroll import *
 from django.contrib.auth import login
 from rest_framework.views import APIView
+from rest_framework import filters
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
@@ -24,6 +25,7 @@ from rest_framework.pagination import PageNumberPagination
 from  rest_framework.mixins import CreateModelMixin
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from datetime import date
 from knox.views import LoginView as KnoxLoginView
 # from pandas import *
 # Create your views here.
@@ -730,3 +732,28 @@ def generate_obj_pdf(instance_id,request):
      
      
      return url
+
+
+class InvoiceReportFilter(generics.GenericAPIView):
+    queryset= Invoice.objects.all()
+    serializer_class= InvoiceReadSerializer
+    
+    def get(self, request):
+        name=request.GET.get("name")
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        instance= Invoice.objects.filter(date_created__range=[fromdate, todate], invoice_type=name)
+
+        if instance.exists():
+            serializer= InvoiceReadSerializer(instance, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({"data":"Invalid User"})
+
+
+        # if Invoice.objects.filter():
+        #     print("There is at least one Entry with the headline Test"):
+   
+        # serializer= InvoiceReadSerializer(instance, many=True)
+        # return Response(serializer.data)
+
