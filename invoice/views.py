@@ -748,8 +748,7 @@ def generate_obj_pdf(instance_id,request):
      print(obj.pdf)
      HOSTNAME = request.META['HTTP_HOST']
      url = '{0}/static/img/{1}'.format(HOSTNAME,obj.pdf)
-     
-     
+
      return url
 
 

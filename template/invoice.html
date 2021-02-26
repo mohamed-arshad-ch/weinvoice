@@ -4,305 +4,299 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <title>Invoice</title>
-    <style>
-        #invoice{
-    padding: 30px;
-}
+    
+    <title>Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+    }
 
-.invoice {
-    position: relative;
-    background-color: #FFF;
-    min-height: 680px;
-    padding: 15px
-}
+    .mb-20 {
+      margin-bottom: 20px;
+    }
 
-.invoice header {
-    padding: 10px 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #3989c6
-}
+    .container-fluid {
+      width: 100%;
+      padding: 40px 0px;
+      padding-top: 40px;
+      margin: 0px;
+    }
 
-.invoice .company-details {
-    text-align: right
-}
+    .logo-1,
+    .logo-2 {
+      display: inline-block;
+      max-width: 100px;
+    }
 
-.invoice .company-details .name {
-    margin-top: 0;
-    margin-bottom: 0
-}
+    .company-details {
+      float: right;
+    }
 
-.invoice .contacts {
-    margin-bottom: 20px
-}
+    .green-strip {
+      width: 100%;
+      height: 60px;
+      background-color: #8ABB2A;
+      position: relative;
+    }
 
-.invoice .invoice-to {
-    text-align: left
-}
-
-.invoice .invoice-to .to {
-    margin-top: 0;
-    margin-bottom: 0
-}
-
-.invoice .invoice-details {
-    text-align: right
-}
-
-.invoice .invoice-details .invoice-id {
-    margin-top: 0;
-    color: #3989c6
-}
-
-.invoice main {
-    padding-bottom: 50px
-}
-
-.invoice main .thanks {
-    margin-top: -100px;
-    font-size: 2em;
-    margin-bottom: 50px
-}
-
-.invoice main .notices {
-    padding-left: 6px;
-    border-left: 6px solid #3989c6
-}
-
-.invoice main .notices .notice {
-    font-size: 1.2em
-}
-
-.invoice table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin-bottom: 20px
-}
-
-.invoice table td,.invoice table th {
-    padding: 15px;
-    background: #eee;
-    border-bottom: 1px solid #fff
-}
-
-.invoice table th {
-    white-space: nowrap;
-    font-weight: 400;
-    font-size: 16px
-}
-
-.invoice table td h3 {
-    margin: 0;
-    font-weight: 400;
-    color: #3989c6;
-    font-size: 1.2em
-}
-
-.invoice table .qty,.invoice table .total,.invoice table .unit {
-    text-align: right;
-    font-size: 1.2em
-}
-
-.invoice table .no {
-    color: #fff;
-    font-size: 1.6em;
-    background: #3989c6
-}
-
-.invoice table .unit {
-    background: #ddd
-}
-
-.invoice table .total {
-    background: #3989c6;
-    color: #fff
-}
-
-.invoice table tbody tr:last-child td {
-    border: none
-}
-
-.invoice table tfoot td {
-    background: 0 0;
-    border-bottom: none;
-    white-space: nowrap;
-    text-align: right;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    border-top: 1px solid #aaa
-}
-
-.invoice table tfoot tr:first-child td {
-    border-top: none
-}
-
-.invoice table tfoot tr:last-child td {
-    color: #3989c6;
-    font-size: 1.4em;
-    border-top: 1px solid #3989c6
-}
-
-.invoice table tfoot tr td:first-child {
-    border: none
-}
-
-.invoice footer {
-    width: 100%;
-    text-align: center;
-    color: #777;
-    border-top: 1px solid #aaa;
-    padding: 8px 0
-}
-
-@media print {
     .invoice {
-        font-size: 11px!important;
-        overflow: hidden!important
+      background: #fff;
+      width: 150px;
+      height: 60px;
+      color: #000;
+      position: absolute;
+      right: 10%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
     }
 
-    .invoice footer {
-        position: absolute;
-        bottom: 10px;
-        page-break-after: always
+    .container {
+      width: 80%;
+      margin: auto;
+      padding: 20px 0px;
     }
 
-    .invoice>div:last-child {
-        page-break-before: always
+    .invoice-to,
+    .company-details {
+      display: inline-block;
     }
-}
-    </style>
+
+    .invoice-to .title,
+    .company-details .title {
+      color: #383C46;
+      font-size: 26px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .invoice-to .name,
+    .company-details .name {
+      color: #383C46;
+      font-size: 16px;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .invoice-to .address,
+    .company-details .address {
+      max-width: 250px;
+      display: inline-block;
+      line-height: 20px;
+    }
+
+    .payment {
+      display: inline-block;
+      width: 300px;
+    }
+
+    .payment .title {
+      color: #383C46;
+      font-size: 26px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .payment .details {
+      color: #1b1b1b;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .payment .details span {
+      display: inline-block;
+      width: 100px;
+    }
+
+    .invoice-details {
+      width: 100%;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end
+    }
+
+    .invoice-details .title,
+    .invoice-details .name {
+      font-size: 20px;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .invoice-details .title span,
+    .invoice-details .name span {
+      width: 120px;
+      display: inline-block;
+      font-weight: 700;
+    }
+
+    .table {
+      width: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      border: 1px solid #363B45;
+      margin-bottom: 20px;
+    }
+
+    .table .table-head {
+      width: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      background-color: #363B45;
+      color: #fff;
+      padding: 10px;
+    }
+
+    .table .table-item {
+      width: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      padding: 20px 10px;
+      border-bottom: 1px solid #363B45;
+    }
+
+    .table .table-item:last-child {
+      border: none;
+    }
+
+    .col-1 {
+      max-width: 10%;
+      -webkit-box-flex: 10%;
+      -ms-flex: 10%;
+      flex: 10%;
+    }
+
+    .col-2 {
+      max-width: 20%;
+      -webkit-box-flex: 20%;
+      -ms-flex: 20%;
+      flex: 20%;
+      text-align: center;
+    }
+
+    lachulakshmi2804 .col-4 {
+      max-width: 40%;
+      -webkit-box-flex: 40%;
+      -ms-flex: 40%;
+      flex: 40%;
+    }
+
+    .thank-message {
+      display: block;
+      font-weight: 600;
+      font-size: 18px;
+      min-width: 100%;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .green-total {
+      background-color: #8ABB2A;
+      display: block;
+      width: 300px;
+      padding: 15px;
+      color: #fff;
+      margin-left: auto;
+    }
+
+    .green-total .title {
+      width: 100%;
+    }
+
+    .green-total .title span {
+      float: right;
+      width: 100px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 26px;
+    }
+</style>
 </head>
-
 <body>
-    <div id="invoice">
-
-        <!-- <div class="toolbar hidden-print">
-            <div class="text-right">
-                <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
-                <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
-            </div>
-            <hr>
-        </div> -->
-        {{instance}}
-        <div class="invoice overflow-auto">
-            <div style="min-width: 600px">
-                <header>
-                    <div class="row">
-                        <div class="col">
-                            <a target="_blank" href="https://lobianijs.com">
-                                <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" />
-                                </a>
-                        </div>
-                        <div class="col company-details">
-                            <h2 class="name">
-                                <a target="_blank" href="https://lobianijs.com">
-                                Arboshiki
-                                </a>
-                            </h2>
-                            <div>455 Foggy Heights, AZ 85004, US</div>
-                            <div>(123) 456-789</div>
-                            <div>company@example.com</div>
-                        </div>
-                    </div>
-                </header>
-                <main>
-                    <div class="row contacts">
-                        <div class="col invoice-to">
-                            <div class="text-gray-light">INVOICE TO:</div>
-                            <h2 class="to">John Doe</h2>
-                            <div class="address">796 Silver Harbour, TX 79273, US</div>
-                            <div class="email"><a href="mailto:john@example.com">john@example.com</a></div>
-                        </div>
-                        <div class="col invoice-details">
-                            <h1 class="invoice-id">INVOICE 3-2-1</h1>
-                            <div class="date">Date of Invoice: 01/10/2018</div>
-                            <div class="date">Due Date: 30/10/2018</div>
-                        </div>
-                    </div>
-                    <table border="0" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th class="text-left">DESCRIPTION</th>
-                                <th class="text-right">HOUR PRICE</th>
-                                <th class="text-right">HOURS</th>
-                                <th class="text-right">TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="no">04</td>
-                                <td class="text-left"><h3>
-                                    <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
-                                    Youtube channel
-                                    </a>
-                                    </h3>
-                                   <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
-                                       Useful videos
-                                   </a> 
-                                   to improve your Javascript skills. Subscribe and stay tuned :)
-                                </td>
-                                <td class="unit">$0.00</td>
-                                <td class="qty">100</td>
-                                <td class="total">$0.00</td>
-                            </tr>
-                            <tr>
-                                <td class="no">01</td>
-                                <td class="text-left"><h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual identity</td>
-                                <td class="unit">$40.00</td>
-                                <td class="qty">30</td>
-                                <td class="total">$1,200.00</td>
-                            </tr>
-                            <tr>
-                                <td class="no">02</td>
-                                <td class="text-left"><h3>Website Development</h3>Developing a Content Management System-based Website</td>
-                                <td class="unit">$40.00</td>
-                                <td class="qty">80</td>
-                                <td class="total">$3,200.00</td>
-                            </tr>
-                            <tr>
-                                <td class="no">03</td>
-                                <td class="text-left"><h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>
-                                <td class="unit">$40.00</td>
-                                <td class="qty">20</td>
-                                <td class="total">$800.00</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td colspan="2">SUBTOTAL</td>
-                                <td>$5,200.00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td colspan="2">TAX 25%</td>
-                                <td>$1,300.00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td colspan="2">GRAND TOTAL</td>
-                                <td>$6,500.00</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    <div class="thanks">Thank you!</div>
-                    <div class="notices">
-                        <div>NOTICE:</div>
-                        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
-                    </div>
-                </main>
-                <footer>
-                    Invoice was created on a computer and is valid without the signature and seal.
-                </footer>
-            </div>
-            <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
-            <div></div>
+    <div class="container-fluid">
+        <div class="container">
+          <div class="logo-1">
+    
+          </div>
+          <div class="logo-2">
+    
+          </div>
+          <div class="company-details">
+            <label for="" class="name"></label>
+            <label for="" class="address"></label>
+          </div>
         </div>
-    </div>
+        <div class="green-strip">
+          <label for="" class="invoice">INVOICE</label>
+        </div>
+        <div class="container">
+          <div class="invoice-to">
+            <label for="" class="title">Invoice to:</label>
+            <label for="" class="name"></label>
+            <label for="" class="address"></label>
+          </div>
+          <div class="invoice-details">
+            <label for="" class="title"><span>Invoice #</span></label>
+            <label for="" class="name"><span>Date</span></label>
+          </div>
+    
+          <div class="table">
+            <div class="table-head">
+              <div class="col-1">Sl</div>
+              <div class="col-4">Item Description</div>
+              <div class="col-2">Price</div>
+              <div class="col-2">Qty.</div>
+              <div class="col-2">Total</div>
+            </div>
+    
+            <div class="table-item">
+              <div class="col-1"></div>
+              <div class="col-4"> </div>
+              <div class="col-2">₹ </div>
+              <div class="col-2"></div>
+              <div class="col-2">₹ </div>
+            </div>
+    
+          </div>
+          <label for="" class="thank-message">Thank you for your business</label>
+          <div class="invoice-to">
+            <label for="" class="title">Terms & Conditions</label>
+            <label for="" class="address">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</label>
+          </div>
+          <div class="mb-20"></div>
+          <div class="invoice-details">
+            <label for="" class="title"><span>Sub Total</span>₹ </label>
+            <label for="" class="name"><span>Tax</span>%</label>
+            <label for="" class="name"><span>Delivery charge</span>₹ </label>
+          </div>
+          <div class="green-total">
+            <label for="" class="title">Total<span>₹ </span></label>
+          </div>
+        </div>
+      </div>
 </body>
 </html>
