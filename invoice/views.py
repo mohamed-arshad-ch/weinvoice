@@ -756,7 +756,21 @@ class InvoiceReportFilter(generics.GenericAPIView):
     queryset= Invoice.objects.all()
     serializer_class= InvoiceReadSerializer
     
+    def get(self, reclass InventoryList(generics.GenericAPIView):
+    queryset=Inventory.objects.all()
+    serializer_class=InventorySerializer
     def get(self, request):
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        inventory=Inventory.objects.filter(date_created__range=[fromdate, todate])
+        a=self.paginate_queryset(inventory)
+        if inventory.exists():
+            serializer=InventorySerializer(a, many=True)
+            
+            return Response({"data":serializer.data, "status":"success"})
+        else:
+            return Response({"data":"data not available", "status":"error"})
+quest):
         name=request.GET.get("name")
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
@@ -772,5 +786,21 @@ class InvoiceReportFilter(generics.GenericAPIView):
             serializer= InvoiceReadSerializer(instance, many=True)
             return Response({"data":serializer.data,"sales_price":total,"status":"success"})
 
+        else:
+            return Response({"data":"data not available", "status":"error"})
+
+
+class InventoryList(generics.GenericAPIView):
+    queryset=Inventory.objects.all()
+    serializer_class=InventorySerializer
+    def get(self, request):
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        inventory=Inventory.objects.filter(date_created__range=[fromdate, todate])
+        a=self.paginate_queryset(inventory)
+        if inventory.exists():
+            serializer=InventorySerializer(a, many=True)
+            
+            return Response({"data":serializer.data, "status":"success"})
         else:
             return Response({"data":"data not available", "status":"error"})
