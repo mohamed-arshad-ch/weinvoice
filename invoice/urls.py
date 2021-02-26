@@ -52,7 +52,7 @@ urlpatterns = [
 
     # path('api/logout/', GeneratePDF.as_view(), name='logout'),
 
-
+    path('api/v1/report/search', InvoiceReportFilter.as_view(),name="date_field"),
 
     
 ]
