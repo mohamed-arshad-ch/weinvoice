@@ -742,7 +742,6 @@ class InvoiceReportFilter(generics.GenericAPIView):
         name=request.GET.get("name")
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
-
         instance= Invoice.objects.filter(date_created__range=[fromdate, todate], invoice_type=name)
 
         total=0
@@ -754,11 +753,3 @@ class InvoiceReportFilter(generics.GenericAPIView):
             return Response({"data":serializer.data,"sales_price":total,"status":"success"})
         else:
             return Response({"data":"data not available", "status":"error"})
-
-
-        # if Invoice.objects.filter():
-        #     print("There is at least one Entry with the headline Test"):
-   
-        # serializer= InvoiceReadSerializer(instance, many=True)
-        # return Response(serializer.data)
-
