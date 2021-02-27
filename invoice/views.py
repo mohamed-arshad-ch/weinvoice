@@ -574,12 +574,12 @@ class SortForTax(generics.ListAPIView):
     queryset = TaxGroup.objects.all()
     serializer_class = TaxSerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_sess','hsn_others','hsn_user_id']
+    filterset_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_cess','hsn_others','hsn_user_id']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_sess','hsn_others','hsn_user_id']
+    ordering_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_cess','hsn_others','hsn_user_id']
 
 class PartialSearchForTax(generics.ListAPIView):
     queryset = TaxGroup.objects.all()
