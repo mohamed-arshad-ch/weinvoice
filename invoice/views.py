@@ -86,12 +86,12 @@ class SortInventory(generics.ListAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit','cgst','sgst','cess','others']
+    filterset_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit','cgst','sgst','cess','others']
+    ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others']
 
 class PartialSearch(generics.ListAPIView):
     
