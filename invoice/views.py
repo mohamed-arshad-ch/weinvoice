@@ -302,6 +302,17 @@ class SortForInvoice(generics.ListAPIView):
     
     ordering_fields = "__all__"
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 class PartialSearchForInvoice(generics.ListAPIView):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceReadSerializer
@@ -844,3 +855,15 @@ class InventoryOutOffCountList(generics.GenericAPIView):
             return Response({"data":serializer.data, "status":"success"})
         else:
             return Response({"data":"data not available", "status":"error"})
+
+class CustomerCountList(generics.GenericAPIView):
+    queryset=Customer.objects.all()
+    serializer_class=CustomerSerializer
+    def get(self,request):
+
+        list_customer= Customer.objects.all().count()
+        sales_invoicecount= Invoice.objects.filter(invoice_type="sales").count()
+        purchase_customer= Invoice.objects.filter(invoice_type="purchase").count()
+        quotation_customer= Invoice.objects.filter(invoice_type="quotation").count()
+
+        return Response({"data":{"customer_count":list_customer,"sale_count":sales_invoicecount,"purchase_count":purchase_customer,"quotation_count":quotation_customer},"status":"success"})
