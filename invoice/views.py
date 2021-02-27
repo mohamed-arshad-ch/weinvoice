@@ -302,11 +302,22 @@ class SortForInvoice(generics.ListAPIView):
     serializer_class = InvoiceReadSerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_fields = ['date_created','customer__name','company_name','company_address','company_city','company_location','company_pin','company_district','company_state','company_gstin','company_email','company_phone','company_logo','product_list','due_amount','sgst','cgst','status','invoice_type']
-    pagination_class = PageNumberPagination
-    pagination_class.page_size_query_param = 'limit'
+    # pagination_class = PageNumberPagination
+    # pagination_class.page_size_query_param = 'limit'
     
     
     ordering_fields = "__all__"
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({"data":serializer.data})
 
 class PartialSearchForInvoice(generics.ListAPIView):
     queryset = Invoice.objects.all()
@@ -761,6 +772,7 @@ class InvoiceReportFilter(generics.GenericAPIView):
 
 
     def get(self, request):
+<<<<<<< HEAD
         name=request.GET.get("name")
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
@@ -770,6 +782,9 @@ class InvoiceReportFilter(generics.GenericAPIView):
 class InvoiceReportFilter(generics.GenericAPIView):
     queryset=Inventory.objects.all()
     serializer_class=InventorySerializer
+=======
+        
+>>>>>>> facb3c02cde891dee98409f03098aca49902242a
 
     def get(self, request):
         name=request.GET.get("name")
@@ -824,7 +839,7 @@ class InventoryStatusList(generics.GenericAPIView):
 
         list_all= Inventory.objects.all().count()
 
-        print(list_all)
+        
         outoff_stock= Inventory.objects.filter(stock__lte=0).count()
         # print(low_stock)
         low_stock=Inventory.objects.filter(stock__lte=3).count()
@@ -841,8 +856,11 @@ class InventoryStatusList(generics.GenericAPIView):
         total3=0
         for i in quotation_customer:
             total3+=i.due_amount
+<<<<<<< HEAD
         
         
+=======
+>>>>>>> facb3c02cde891dee98409f03098aca49902242a
 
 
         return Response({"data":{"inventory_count":list_all,"outoffstock_count":outoff_stock,"low_stock":low_stock,"customer_count":list_customer,"sale_count":total1,"purchase_count":total2,"quotation_count":total3},"status":"success"})
