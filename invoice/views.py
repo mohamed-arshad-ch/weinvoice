@@ -873,3 +873,5 @@ class InventoryOutOffCountList(generics.GenericAPIView):
             return Response({"data":serializer.data, "status":"success"})
         else:
             return Response({"data":"data not available", "status":"error"})
+
+class
