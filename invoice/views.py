@@ -839,8 +839,12 @@ class InventoryStatusList(generics.GenericAPIView):
         outoff_stock= Inventory.objects.filter(stock__lte=0).count()
         # print(low_stock)
         low_stock=Inventory.objects.filter(stock__lte=3).count()
+        list_customer= Customer.objects.all().count()
+        sales_invoicecount= Invoice.objects.filter(invoice_type="sales").count()
+        purchase_customer= Invoice.objects.filter(invoice_type="purchase").count()
+        quotation_customer= Invoice.objects.filter(invoice_type="quotation").count()
 
-        return Response({"data":{"inventory_count":list_all,"outoffstock_count":outoff_stock,"low_stock":low_stock},"status":"success"})
+        return Response({"data":{"inventory_count":list_all,"outoffstock_count":outoff_stock,"low_stock":low_stock,"customer_count":list_customer,"sale_count":sales_invoicecount,"purchase_count":purchase_customer,"quotation_count":quotation_customer},"status":"success"})
 
 class InventoryLowCountList(generics.GenericAPIView):
     queryset=Inventory.objects.all()
@@ -873,14 +877,3 @@ class InventoryOutOffCountList(generics.GenericAPIView):
         else:
             return Response({"data":"data not available", "status":"error"})
 
-class CustomerCountList(generics.GenericAPIView):
-    queryset=Customer.objects.all()
-    serializer_class=CustomerSerializer
-    def get(self,request):
-
-        list_customer= Customer.objects.all().count()
-        sales_invoicecount= Invoice.objects.filter(invoice_type="sales").count()
-        purchase_customer= Invoice.objects.filter(invoice_type="purchase").count()
-        quotation_customer= Invoice.objects.filter(invoice_type="quotation").count()
-
-        return Response({"data":{"customer_count":list_customer,"sale_count":sales_invoicecount,"purchase_count":purchase_customer,"quotation_count":quotation_customer},"status":"success"})
