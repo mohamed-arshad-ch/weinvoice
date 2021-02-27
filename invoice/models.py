@@ -122,6 +122,6 @@ class TaxGroup(models.Model):
     hsn_code = models.CharField(max_length=150)
     hsn_sgst = models.CharField(max_length=150)
     hsn_cgst = models.CharField(max_length=150)
-    hsn_sess = models.CharField(max_length=150)
+    hsn_cess = models.CharField(max_length=150)
     hsn_others = models.CharField(max_length=150)
     hsn_user_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])
