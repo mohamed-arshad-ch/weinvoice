@@ -92,12 +92,12 @@ class SortInventory(generics.ListAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
+    filterset_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','store_id','unit']
+    ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others']
 
 class PartialSearch(generics.ListAPIView):
     
@@ -105,18 +105,13 @@ class PartialSearch(generics.ListAPIView):
     serializer_class = InventorySerializer
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
-    # filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter]
     
-    
-   
-    # filterset_fields = ['stock']
-    # search_fields = ['store_id']
 
     def get(self,request):
-        store_id = request.GET.get('store_id')
+        
         name = request.GET.get('name')
 
-        instance = Inventory.objects.filter(name__icontains=name,store_id=store_id)
+        instance = Inventory.objects.filter(name__icontains=name)
         
         print(instance)
         if instance.exists():
@@ -306,7 +301,7 @@ class SortForInvoice(generics.ListAPIView):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceReadSerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_created','customer__name','company_name','comapny_address','company_city','company_location','company_pin','company_district','company_satate','company_gstin','company_email','company_phone','company_logo','product_list','due_amount','sgst','cgst','status','invoice_type']
+    filterset_fields = ['date_created','customer__name','company_name','company_address','company_city','company_location','company_pin','company_district','company_state','company_gstin','company_email','company_phone','company_logo','product_list','due_amount','sgst','cgst','status','invoice_type']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
@@ -489,7 +484,7 @@ class SortForCompany(generics.ListAPIView):
     queryset = Compony.objects.all()
     serializer_class = ComponySerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['company_id','company_admin']
+    filterset_fields = ['company_id']
 
 
 
@@ -585,12 +580,12 @@ class SortForTax(generics.ListAPIView):
     queryset = TaxGroup.objects.all()
     serializer_class = TaxSerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_sess','hsn_others','hsn_user_id']
+    filterset_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_cess','hsn_others','hsn_user_id']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_sess','hsn_others','hsn_user_id']
+    ordering_fields = ['date_time_created','date_created', 'hsn_code','hsn_sgst','hsn_cgst','hsn_cess','hsn_others','hsn_user_id']
 
 class PartialSearchForTax(generics.ListAPIView):
     queryset = TaxGroup.objects.all()
@@ -753,6 +748,7 @@ def generate_obj_pdf(instance_id,request):
      obj.pdf.save(filename, File(BytesIO(pdf.content)))
      print(obj.pdf)
      HOSTNAME = request.META['HTTP_HOST']
+     
      url = '{0}/static/img/{1}'.format(HOSTNAME,obj.pdf)
 
      return url
@@ -762,6 +758,7 @@ class InvoiceReportFilter(generics.GenericAPIView):
     queryset= Invoice.objects.all()
     serializer_class= InvoiceReadSerializer
     
+
 
     def get(self, request):
         name=request.GET.get("name")
@@ -773,6 +770,7 @@ class InvoiceReportFilter(generics.GenericAPIView):
 class InvoiceReportFilter(generics.GenericAPIView):
     queryset=Inventory.objects.all()
     serializer_class=InventorySerializer
+
     def get(self, request):
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
@@ -829,6 +827,7 @@ class InventoryList(generics.GenericAPIView):
         else:
             return Response({"data":"data not available", "status":"error"})
 
+
 class InventoryStatusList(generics.GenericAPIView):
     queryset=Inventory.objects.all()
     serializer_class=InventorySerializer
@@ -874,4 +873,14 @@ class InventoryOutOffCountList(generics.GenericAPIView):
         else:
             return Response({"data":"data not available", "status":"error"})
 
-class
+class CustomerCountList(generics.GenericAPIView):
+    queryset=Customer.objects.all()
+    serializer_class=CustomerSerializer
+    def get(self,request):
+
+        list_customer= Customer.objects.all().count()
+        sales_invoicecount= Invoice.objects.filter(invoice_type="sales").count()
+        purchase_customer= Invoice.objects.filter(invoice_type="purchase").count()
+        quotation_customer= Invoice.objects.filter(invoice_type="quotation").count()
+
+        return Response({"data":{"customer_count":list_customer,"sale_count":sales_invoicecount,"purchase_count":purchase_customer,"quotation_count":quotation_customer},"status":"success"})

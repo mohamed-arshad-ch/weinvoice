@@ -1,258 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
-    rel="stylesheet">
-  <style>
+  <title>Title</title>
+  <style type="text/css">
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .mb-20 {
-      margin-bottom: 20px;
-    }
-
-    .container-fluid {
-      width: 100%;
-      padding: 40px 0px;
-      padding-top: 40px;
-      margin: 0px;
-    }
-
-    .logo-1,
-    .logo-2 {
-      display: inline-block;
-      max-width: 100px;
-    }
-
-    .company-details {
-      float: right;
-    }
-
-    .green-strip {
-      width: 100%;
-      height: 60px;
-      background-color: #8ABB2A;
-      position: relative;
-    }
-
-    .invoice {
-      background: #fff;
-      width: 150px;
-      height: 60px;
-      color: #000;
-      position: absolute;
-      right: 10%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      margin: 0;
-      font-size: 30px;
-      font-weight: 700;
-    }
-
-    .container {
-      width: 80%;
-      margin: auto;
-      padding: 20px 0px;
-    }
-
-    .invoice-to,
-    .company-details {
-      display: inline-block;
-    }
-
-    .invoice-to .title,
-    .company-details .title {
-      color: #383C46;
-      font-size: 26px;
-      font-weight: 700;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .invoice-to .name,
-    .company-details .name {
-      color: #383C46;
-      font-size: 16px;
-      font-weight: 800;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .invoice-to .address,
-    .company-details .address {
-      max-width: 250px;
-      display: inline-block;
-      line-height: 20px;
-    }
-
-    .payment {
-      display: inline-block;
-      width: 300px;
-    }
-
-    .payment .title {
-      color: #383C46;
-      font-size: 26px;
-      font-weight: 700;
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    .payment .details {
-      color: #1b1b1b;
+      font-weight: 200;
       font-size: 14px;
-      display: block;
-      margin-bottom: 10px;
     }
 
-    .payment .details span {
-      display: inline-block;
-      width: 100px;
-    }
-
-    .invoice-details {
-      width: 100%;
-      flex-direction: column;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end
-    }
-
-    .invoice-details .title,
-    .invoice-details .name {
+    .header {
       font-size: 20px;
-      font-weight: 500;
-      display: block;
-      margin-bottom: 15px;
+      font-weight: 100;
+      text-align: center;
+      color: #007cae;
     }
 
-    .invoice-details .title span,
-    .invoice-details .name span {
-      width: 120px;
-      display: inline-block;
-      font-weight: 700;
+    .title {
+      font-size: 22px;
+      font-weight: 100;
+      /* text-align: right;*/
+      padding: 10px 20px 0px 20px;
     }
 
-    .table {
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-      margin-top: 20px;
-      border: 1px solid #363B45;
-      margin-bottom: 20px;
+    .title span {
+      color: #007cae;
     }
 
-    .table .table-head {
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      background-color: #363B45;
-      color: #fff;
-      padding: 10px;
+    .details {
+      padding: 10px 20px 0px 20px;
+      text-align: left !important;
+      /*margin-left: 40%;*/
     }
 
-    .table .table-item {
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      padding: 20px 10px;
-      border-bottom: 1px solid #363B45;
-    }
-
-    .table .table-item:last-child {
+    .hrItem {
       border: none;
+      height: 1px;
+      /* Set the hr color */
+      color: #333;
+      /* old IE */
+      background-color: #fff;
+      /* Modern Browsers */
     }
 
-    .col-1 {
-      max-width: 10%;
-      -webkit-box-flex: 10%;
-      -ms-flex: 10%;
-      flex: 10%;
+    .company-details {
+      padding: 0px 10px 10px 20px;
+      text-align: right !important;
     }
 
-    .col-2 {
-      max-width: 20%;
-      -webkit-box-flex: 20%;
-      -ms-flex: 20%;
-      flex: 20%;
-      text-align: center;
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
     }
-
-    lachulakshmi2804 .col-4 {
-      max-width: 40%;
-      -webkit-box-flex: 40%;
-      -ms-flex: 40%;
-      flex: 40%;
-    }
-
-    .thank-message {
-      display: block;
-      font-weight: 600;
-      font-size: 18px;
-      min-width: 100%;
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .green-total {
-      background-color: #8ABB2A;
-      display: block;
-      width: 300px;
-      padding: 15px;
-      color: #fff;
-      margin-left: auto;
-    }
-
-    .green-total .title {
-      width: 100%;
-    }
-
-    .green-total .title span {
-      float: right;
-      width: 100px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 26px;
-    }
-</style>
+  </style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Sign In</h5>
-                    <form class="form-signin">
-                        <div class="form-label-group"> <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus> <label for="inputEmail">Email address</label> </div>
-                        <div class="form-label-group"> <input type="password" id="inputPassword" class="form-control" placeholder="Password" required> <label for="inputPassword">Password</label> </div>
-                        <div class="custom-control custom-checkbox mb-3"> <input type="checkbox" class="custom-control-input" id="customCheck1"> <label class="custom-control-label" for="customCheck1">Remember password?</label> </div> <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-                        <hr class="my-4"> <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button> <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+  <div class='wrapper'>
+    <div class='header'>
+      <p class='title'>Invoice # </p>
     </div>
-</div>
+
+    <div>
+
+      <div class='details'>
+        <h4>Invoice to:</h4> <br />
+        Name &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;:{{instance.customer.name}} <br />
+        Address &nbsp; :{{instance.customer.address}} <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{instance.customer.city}}
+        <div class="company-details">
+
+          <label for="" class="name">{{instance.company_name}}</label><br>
+          <label for="" class="address">{{instance.company_address}}</label>
+        </div>
+        <hr class='hrItem' />
+      </div>
+
+      <div class="item-details">
+        <table style="width:100%">
+          <tr>
+            <th>Sl No</th>
+            <th>Item Description</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>CGST</th>
+            <th>SGST</th>
+            <th>Others</th>
+            <th>Total</th>
+          </tr>
+          
+          {% for items in instance.product_list.all %}
+          <tr>
+            <td>#</td>
+            <td>{{items.product.name}}</td>
+            <td>{{items.product.sales_price}}</td>
+            <td>{{items.qty}}</td>
+            <td>{{items.product.cgst}}</td>
+            <td>{{items.product.sgst}}</td>
+            <td>{{items.product.others}}</td>
+            <td>{{items.total_of_items}}</td>
+
+          </tr>
+          {% endfor %}
+            
+          
+        </table>
+      </div>
+      <div class="total-field">
+        othersothers
+      </div>
+    </div>
 </body>
+
 </html>

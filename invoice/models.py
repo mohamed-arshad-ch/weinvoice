@@ -26,7 +26,10 @@ class Inventory(models.Model):
     base_price = models.FloatField(blank=False,null=False)
     sales_price =  models.FloatField(blank=False,null=False)
     stock = models.IntegerField(blank=False,null=False)
-    store_id = models.CharField(max_length=150,blank=False,null=False)
+    cgst = models.IntegerField()
+    sgst = models.IntegerField()
+    cess = models.IntegerField()
+    others = models.IntegerField()
     unit = models.CharField(max_length=150,blank=False,null=False)
 
     def __str__(self):
@@ -59,17 +62,22 @@ class OrderItems(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def total_of_items(self):
+        total = 0
+        total+=self.product.sales_price * self.qty
+        return total
+
 class Invoice(models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_time_created = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer,related_name="customer",on_delete=models.CASCADE,null=True,blank=True)
     company_name = models.CharField(max_length=150,blank=False,null=False)
-    comapny_address = models.CharField(max_length=150,blank=False,null=False)
+    company_address = models.CharField(max_length=150,blank=False,null=False)
     company_city = models.CharField(max_length=150,blank=False,null=False)
     company_location = models.CharField(max_length=150,blank=False,null=False)
     company_pin = models.CharField(max_length=150,blank=False,null=False)
     company_district = models.CharField(max_length=150,blank=False,null=False)
-    company_satate = models.CharField(max_length=150,blank=False,null=False)
+    company_state = models.CharField(max_length=150,blank=False,null=False)
     company_gstin = models.CharField(max_length=150,blank=False,null=False)
     company_email = models.EmailField()
     company_gst_type = models.CharField(max_length=150,blank=True,null=True)
@@ -82,7 +90,7 @@ class Invoice(models.Model):
     status = models.BooleanField()
     invoice_type = models.CharField(max_length=150,blank=False,null=False)
     company_signature = models.TextField()
-    company_id = models.CharField(max_length=150)
+    company_id = models.CharField(max_length=150,null=True,blank=True)
     pdf = models.FileField(upload_to='pdfs/')
 
     def __str__(self):
@@ -93,7 +101,7 @@ class Compony(models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_time_created = models.DateTimeField(auto_now_add=True)
     company_name = models.CharField(max_length=150)
-    comapny_address = models.CharField(max_length=150)
+    company_address = models.CharField(max_length=150)
     company_city = models.CharField(max_length=150)
     company_location = models.CharField(max_length=150)
     company_pin = models.CharField(max_length=150)
@@ -104,7 +112,7 @@ class Compony(models.Model):
     company_phone = models.CharField(max_length=150)
     company_logo = models.TextField()
     company_signature = models.TextField()
-    company_admin = models.CharField(max_length=150)
+    
     company_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8],primary_key=True)
 
 
@@ -114,6 +122,6 @@ class TaxGroup(models.Model):
     hsn_code = models.CharField(max_length=150)
     hsn_sgst = models.CharField(max_length=150)
     hsn_cgst = models.CharField(max_length=150)
-    hsn_sess = models.CharField(max_length=150)
+    hsn_cess = models.CharField(max_length=150)
     hsn_others = models.CharField(max_length=150)
     hsn_user_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])

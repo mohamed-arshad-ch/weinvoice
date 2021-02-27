@@ -12,18 +12,18 @@ class CreateInvoiceController:
         address = self.data['address']
         cgst = self.data['cgst']
         city = self.data['city']
-        comapny_address = self.data['comapny_address']
+        comapny_address = self.data['company_address']
         company_city = self.data['company_city']
         company_district = self.data['company_district']
         company_email = self.data['company_email']
-        company_gst_number = self.data['company_gst_number']
+        company_gstin = self.data['company_gstin']
         company_location = self.data['company_location']
         company_logo = self.data['company_logo']
         company_name = self.data['company_name']
         company_phone = self.data['company_phone']
-        company_pincode = self.data['company_pincode']
+        company_pin = self.data['company_pin']
         company_state = self.data['company_state']
-        digital_signature = self.data['digital_signature']
+        company_signature = self.data['company_signature']
         district = self.data['district']
         email = self.data['email']
         gst_number = self.data['gst_number']
@@ -46,10 +46,10 @@ class CreateInvoiceController:
         invoice.comapny_address = comapny_address
         invoice.company_city = company_city
         invoice.company_location = company_location
-        invoice.company_pin = company_pincode
+        invoice.company_pin = company_pin
         invoice.company_district = company_district
         invoice.company_state = company_state
-        invoice.company_gstin = company_gst_number
+        invoice.company_gstin = company_gstin
         invoice.company_email = company_email
         invoice.company_phone = company_phone
         invoice.company_logo = company_logo
@@ -58,7 +58,7 @@ class CreateInvoiceController:
         invoice.cgst = cgst
         invoice.status = True
         invoice.invoice_type = typeof
-        invoice.digital_signature = digital_signature
+        invoice.company_signature = company_signature
         invoice.save()
     # print(product_list)
         for i in product_list:
