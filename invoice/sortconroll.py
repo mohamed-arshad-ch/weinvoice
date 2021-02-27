@@ -37,7 +37,7 @@ class CreateInvoiceController:
         sgst = self.data['sgst']
         due_amount = self.data['due_amount']
         state = self.data['state']
-        typeof = self.data['type']
+        typeof = self.data['invoice_type']
 
         cust, created = Customer.objects.get_or_create(name=name,logo=logo,address=address,city=city,location=location,pincode=pincode,state=state,district=district,gst_number=gst_number,gst_type=gst_type,email=email,phone=phone)
         invoice = Invoice()

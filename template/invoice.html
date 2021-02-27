@@ -54,6 +54,10 @@
       border: 1px solid black;
       border-collapse: collapse;
     }
+
+    th {
+      text-align: left;
+    }
   </style>
 </head>
 
@@ -90,7 +94,7 @@
             <th>Others</th>
             <th>Total</th>
           </tr>
-          
+
           {% for items in instance.product_list.all %}
           <tr>
             <td>#</td>
@@ -104,8 +108,8 @@
 
           </tr>
           {% endfor %}
-            
-          
+
+
         </table>
       </div>
       <div class="total-field">
