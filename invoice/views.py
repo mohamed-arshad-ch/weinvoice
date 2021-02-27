@@ -478,7 +478,7 @@ class SortForCompany(generics.ListAPIView):
     queryset = Compony.objects.all()
     serializer_class = ComponySerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['company_id','company_admin']
+    filterset_fields = ['company_id']
 
 
 
