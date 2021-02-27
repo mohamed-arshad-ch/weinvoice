@@ -23,7 +23,7 @@ class CreateInvoiceController:
         company_phone = self.data['company_phone']
         company_pin = self.data['company_pin']
         company_state = self.data['company_state']
-        digital_signature = self.data['digital_signature']
+        company_signature = self.data['company_signature']
         district = self.data['district']
         email = self.data['email']
         gst_number = self.data['gst_number']
@@ -58,7 +58,7 @@ class CreateInvoiceController:
         invoice.cgst = cgst
         invoice.status = True
         invoice.invoice_type = typeof
-        invoice.digital_signature = digital_signature
+        invoice.company_signature = company_signature
         invoice.save()
     # print(product_list)
         for i in product_list:
