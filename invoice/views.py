@@ -765,16 +765,7 @@ class InvoiceReportFilter(generics.GenericAPIView):
     
    
     def get(self, request):
-        fromdate=request.GET.get("from")
-        todate=request.GET.get("to")
-        inventory=Inventory.objects.filter(date_created__range=[fromdate, todate])
-        a=self.paginate_queryset(inventory)
-        if inventory.exists():
-            serializer=InventorySerializer(a, many=True)
-            
-            return Response({"data":serializer.data, "status":"success"})
-        else:
-            return Response({"data":"data not available", "status":"error"})
+        
 
         name=request.GET.get("name")
         fromdate=request.GET.get("from")
