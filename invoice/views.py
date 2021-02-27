@@ -294,15 +294,15 @@ class UpdateForInvoice(generics.UpdateAPIView):
 class SortForInvoice(generics.ListAPIView):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceReadSerializer
-    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_created','customer__name','company_name','company_address','company_city','company_location','company_pin','company_district','company_state','company_gstin','company_email','company_phone','company_logo','product_list','due_amount','sgst','cgst','status','invoice_type']
-    pagination_class = PageNumberPagination
-    pagination_class.page_size_query_param = 'limit'
+    # filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    # filterset_fields = ['date_created','customer__name','company_name','company_address','company_city','company_location','company_pin','company_district','company_state','company_gstin','company_email','company_phone','company_logo','product_list','due_amount','sgst','cgst','status','invoice_type']
+    # pagination_class = PageNumberPagination
+    # pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = "__all__"
+    # ordering_fields = "__all__"
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(queryset)
@@ -311,7 +311,7 @@ class SortForInvoice(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response({"data":serializer.data})
 
 class PartialSearchForInvoice(generics.ListAPIView):
     queryset = Invoice.objects.all()
