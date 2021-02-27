@@ -75,7 +75,7 @@ class CreateInvoiceController:
     def stock_control(self,instance,quatity):
         print(instance.stock)
         print(quatity)
-        instance.stock-=quatity
+        instance.stock-=int(quatity)
         instance.save()
 
         
