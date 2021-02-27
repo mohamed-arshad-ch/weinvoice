@@ -30,7 +30,6 @@ class Inventory(models.Model):
     sgst = models.IntegerField()
     cess = models.IntegerField()
     others = models.IntegerField()
-    store_id = models.CharField(max_length=150,blank=False,null=False)
     unit = models.CharField(max_length=150,blank=False,null=False)
 
     def __str__(self):
