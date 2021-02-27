@@ -58,5 +58,5 @@ urlpatterns = [
     path('api/v1/report/inventory/lowstock', InventoryLowCountList.as_view(), name="inventory_lowcount"),
     path('api/v1/report/inventory/outofstock',InventoryOutOffCountList.as_view(),name="inventory_outoffstock"),
 
-    path('api/v1/report/status',CustomerCountList.as_view(),name="customercountlist")
+    
 ]
