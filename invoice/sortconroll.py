@@ -21,7 +21,7 @@ class CreateInvoiceController:
         company_logo = self.data['company_logo']
         company_name = self.data['company_name']
         company_phone = self.data['company_phone']
-        company_pincode = self.data['company_pincode']
+        company_pin = self.data['company_pin']
         company_state = self.data['company_state']
         digital_signature = self.data['digital_signature']
         district = self.data['district']
@@ -46,7 +46,7 @@ class CreateInvoiceController:
         invoice.comapny_address = comapny_address
         invoice.company_city = company_city
         invoice.company_location = company_location
-        invoice.company_pin = company_pincode
+        invoice.company_pin = company_pin
         invoice.company_district = company_district
         invoice.company_state = company_state
         invoice.company_gstin = company_gstin
