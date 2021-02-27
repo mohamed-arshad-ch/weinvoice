@@ -64,12 +64,12 @@ class Invoice(models.Model):
     date_time_created = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer,related_name="customer",on_delete=models.CASCADE,null=True,blank=True)
     company_name = models.CharField(max_length=150,blank=False,null=False)
-    comapny_address = models.CharField(max_length=150,blank=False,null=False)
+    company_address = models.CharField(max_length=150,blank=False,null=False)
     company_city = models.CharField(max_length=150,blank=False,null=False)
     company_location = models.CharField(max_length=150,blank=False,null=False)
     company_pin = models.CharField(max_length=150,blank=False,null=False)
     company_district = models.CharField(max_length=150,blank=False,null=False)
-    company_satate = models.CharField(max_length=150,blank=False,null=False)
+    company_state = models.CharField(max_length=150,blank=False,null=False)
     company_gstin = models.CharField(max_length=150,blank=False,null=False)
     company_email = models.EmailField()
     company_gst_type = models.CharField(max_length=150,blank=True,null=True)
@@ -82,7 +82,7 @@ class Invoice(models.Model):
     status = models.BooleanField()
     invoice_type = models.CharField(max_length=150,blank=False,null=False)
     company_signature = models.TextField()
-    company_id = models.CharField(max_length=150)
+    company_id = models.CharField(max_length=150,null=True,blank=True)
     pdf = models.FileField(upload_to='pdfs/')
 
     def __str__(self):

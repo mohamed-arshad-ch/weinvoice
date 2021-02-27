@@ -756,9 +756,7 @@ class InvoiceReportFilter(generics.GenericAPIView):
     queryset= Invoice.objects.all()
     serializer_class= InvoiceReadSerializer
     
-    def get(self, reclass InventoryList(generics.GenericAPIView):
-    queryset=Inventory.objects.all()
-    serializer_class=InventorySerializer
+   
     def get(self, request):
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
@@ -770,7 +768,7 @@ class InvoiceReportFilter(generics.GenericAPIView):
             return Response({"data":serializer.data, "status":"success"})
         else:
             return Response({"data":"data not available", "status":"error"})
-quest):
+
         name=request.GET.get("name")
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
