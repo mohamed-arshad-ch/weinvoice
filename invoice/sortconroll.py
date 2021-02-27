@@ -66,26 +66,15 @@ class CreateInvoiceController:
             inventory = get_object_or_404(Inventory,id=i['id'])
             orderitem = OrderItems.objects.create(product=inventory,qty=i['qty'])
             oj = get_object_or_404(OrderItems,id=orderitem.id)
-<<<<<<< HEAD
-            print(orderitem.id)
-=======
-            
->>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
+
             invoice.product_list.add(OrderItems.objects.get(id=orderitem.id))
             stock_manage=self.stock_control(inventory,orderitem.qty)
         return invoice
         
-<<<<<<< HEAD
-=======
-        
->>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
+
     def stock_control(self,instance,quatity):
         print(instance.stock)
         print(quatity)
         instance.stock-=quatity
         instance.save()
-<<<<<<< HEAD
-=======
 
-        
->>>>>>> e79737ecac00d95f0d2e600f8632370893e7d994
