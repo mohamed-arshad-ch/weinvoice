@@ -747,6 +747,7 @@ def generate_obj_pdf(instance_id,request):
      obj.pdf.save(filename, File(BytesIO(pdf.content)))
      print(obj.pdf)
      HOSTNAME = request.META['HTTP_HOST']
+     
      url = '{0}/static/img/{1}'.format(HOSTNAME,obj.pdf)
 
      return url
@@ -798,6 +799,52 @@ class InventoryList(generics.GenericAPIView):
         a=self.paginate_queryset(inventory)
         if inventory.exists():
             serializer=InventorySerializer(a, many=True)
+            
+            return Response({"data":serializer.data, "status":"success"})
+        else:
+            return Response({"data":"data not available", "status":"error"})
+
+
+class InventoryStatusList(generics.GenericAPIView):
+    queryset=Inventory.objects.all()
+    serializer_class=InventorySerializer
+    def get(self,request):
+
+        list_all= Inventory.objects.all().count()
+
+        print(list_all)
+        outoff_stock= Inventory.objects.filter(stock__lte=0).count()
+        # print(low_stock)
+        low_stock=Inventory.objects.filter(stock__lte=3).count()
+
+        return Response({"data":{"inventory_count":list_all,"outoffstock_count":outoff_stock,"low_stock":low_stock},"status":"success"})
+
+class InventoryLowCountList(generics.GenericAPIView):
+    queryset=Inventory.objects.all()
+    serializer_class=InventorySerializer
+    def get(self,request):
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        inventory=Inventory.objects.filter(date_created__range=[fromdate, todate],stock__lte=3)
+        p=self.paginate_queryset(inventory)
+        if inventory.exists():
+            serializer=InventorySerializer(p, many=True)
+            
+            return Response({"data":serializer.data, "status":"success"})
+        else:
+            return Response({"data":"data not available", "status":"error"})
+
+
+class InventoryOutOffCountList(generics.GenericAPIView):
+    queryset=Inventory.objects.all()
+    serializer_class=InventorySerializer
+    def get(self,request):
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        inventory=Inventory.objects.filter(date_created__range=[fromdate, todate],stock__lte=0)
+        s=self.paginate_queryset(inventory)
+        if inventory.exists():
+            serializer=InventorySerializer(s, many=True)
             
             return Response({"data":serializer.data, "status":"success"})
         else:

@@ -1,306 +1,65 @@
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+    <head>
+        <title>Title</title>
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+            .company-details{
+              padding: 0px 10px 10px 20px;
+              text-align: right !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+                <p class='title'>Invoice # </p>
+            </div>
+            
+        <div>
+          
+        <div class='details'>
+            <h4>Invoice to:</h4> <br/>
+            Name      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;:{{instance.customer.name}}  <br/>
+            Address  &nbsp;    :{{instance.customer.address}} <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     :{{instance.customer.city}}
+            <div class="company-details">
 
-<head>
- 
-  <title>Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
-    rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .mb-20 {
-      margin-bottom: 20px;
-    }
-
-    .container-fluid {
-      width: 100%;
-      padding: 40px 0px;
-      padding-top: 40px;
-      margin: 0px;
-    }
-
-    .logo-1,
-    .logo-2 {
-      display: inline-block;
-      max-width: 100px;
-    }
-
-    .company-details {
-      float: right;
-    }
-
-    .green-strip {
-      width: 100%;
-      height: 60px;
-      background-color: #8ABB2A;
-      position: relative;
-    }
-
-    .invoice {
-      background: #fff;
-      width: 150px;
-      height: 60px;
-      color: #000;
-      position: absolute;
-      right: 10%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      margin: 0;
-      font-size: 30px;
-      font-weight: 700;
-    }
-
-    .container {
-      width: 80%;
-      margin: auto;
-      padding: 20px 0px;
-    }
-
-    .invoice-to,
-    .company-details {
-      display: inline-block;
-    }
-
-    .invoice-to .title,
-    .company-details .title {
-      color: #383C46;
-      font-size: 26px;
-      font-weight: 700;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .invoice-to .name,
-    .company-details .name {
-      color: #383C46;
-      font-size: 16px;
-      font-weight: 800;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .invoice-to .address,
-    .company-details .address {
-      max-width: 250px;
-      display: inline-block;
-      line-height: 20px;
-    }
-
-    .payment {
-      display: inline-block;
-      width: 300px;
-    }
-
-    .payment .title {
-      color: #383C46;
-      font-size: 26px;
-      font-weight: 700;
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    .payment .details {
-      color: #1b1b1b;
-      font-size: 14px;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .payment .details span {
-      display: inline-block;
-      width: 100px;
-    }
-
-    .invoice-details {
-      width: 100%;
-      flex-direction: column;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end
-    }
-
-    .invoice-details .title,
-    .invoice-details .name {
-      font-size: 20px;
-      font-weight: 500;
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    .invoice-details .title span,
-    .invoice-details .name span {
-      width: 120px;
-      display: inline-block;
-      font-weight: 700;
-    }
-
-    .table {
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-      margin-top: 20px;
-      border: 1px solid #363B45;
-      margin-bottom: 20px;
-    }
-
-    .table .table-head {
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      background-color: #363B45;
-      color: #fff;
-      padding: 10px;
-    }
-
-    .table .table-item {
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      padding: 20px 10px;
-      border-bottom: 1px solid #363B45;
-    }
-
-    .table .table-item:last-child {
-      border: none;
-    }
-
-    .col-1 {
-      max-width: 10%;
-      -webkit-box-flex: 10%;
-      -ms-flex: 10%;
-      flex: 10%;
-    }
-
-    .col-2 {
-      max-width: 20%;
-      -webkit-box-flex: 20%;
-      -ms-flex: 20%;
-      flex: 20%;
-      text-align: center;
-    }
-
-    .col-4 {
-      max-width: 40%;
-      -webkit-box-flex: 40%;
-      -ms-flex: 40%;
-      flex: 40%;
-    }
-
-    .thank-message {
-      display: block;
-      font-weight: 600;
-      font-size: 18px;
-      min-width: 100%;
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .green-total {
-      background-color: #8ABB2A;
-      display: block;
-      width: 300px;
-      padding: 15px;
-      color: #fff;
-      margin-left: auto;
-    }
-
-    .green-total .title {
-      width: 100%;
-    }
-
-    .green-total .title span {
-      float: right;
-      width: 100px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 26px;
-    }
-
-    /*# sourceMappingURL=invoice.css.map */
-  </style>
-</head>
-
-<body>
-  <div class="container-fluid">
-    <div class="container">
-      <div class="logo-1">
-        
-      </div>
-      <div class="logo-2">
-        
-      </div>
-      <div class="company-details">
-        <label for="" class="name"></label>
-        <label for="" class="address"></label>
-      </div>
-    </div>
-    <div class="green-strip">
-      <label for="" class="invoice">INVOICE</label>
-    </div>
-    <div class="container">
-      <div class="invoice-to">
-        <label for="" class="title">Invoice to:</label>
-        <label for="" class="name"></label>
-        <label for="" class="address"></label>
-      </div>
-      <div class="invoice-details">
-        <label for="" class="title"><span>Invoice #</span></label>
-        <label for="" class="name"><span>Date</span></label>
-      </div>
-
-      <div class="table">
-        <div class="table-head">
-          <div class="col-1">Sl</div>
-          <div class="col-4">Item Description</div>
-          <div class="col-2">Price</div>
-          <div class="col-2">Qty.</div>
-          <div class="col-2">Total</div>
+              <label for="" class="name">{{instance.company_name}}</label><br>
+              <label for="" class="address">{{instance.company_address}}</label>
+          </div>
+            <hr class='hrItem' />
         </div>
-        
-        <div class="table-item">
-          <div class="col-1"></div>
-          <div class="col-4"> </div>
-          <div class="col-2">₹ </div>
-          <div class="col-2"></div>
-          <div class="col-2">₹ </div>
-        </div>
-       
-      </div>
-      <label for="" class="thank-message">Thank you for your business</label>
-      <div class="invoice-to">
-        <label for="" class="title">Terms & Conditions</label>
-        <label for="" class="address">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</label>
-      </div>
-      <div class="mb-20"></div>
-      <div class="invoice-details">
-        <label for="" class="title"><span>Sub Total</span>₹  </label>
-        <label for="" class="name"><span>Tax</span>%</label>
-        <label for="" class="name"><span>Delivery charge</span>₹ </label>
-      </div>
-      <div class="green-total">
-        <label for="" class="title">Total<span>₹ </span></label>
-      </div>
     </div>
-  </div>
-</body>
-
+    </body>
 </html>
-
-<body>
