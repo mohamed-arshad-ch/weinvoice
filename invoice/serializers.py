@@ -129,6 +129,7 @@ class UnitAllSerializer(serializers.ModelSerializer):
     class Meta:
         model=Units
         fields="__all__"
+       
     def validate_unit(self,data):
         try:
             data = self.get_initial()

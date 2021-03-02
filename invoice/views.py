@@ -893,7 +893,7 @@ class CreateUnits(CreateModelMixin,generics.GenericAPIView):
     def post(self,request, *args, **kwargs):
       
         try:
-            units = Units.objects.filter(name=request.data['name']).count()
+            units = Units.objects.filter(name__iexact=request.data['name']).count()
             
             if units != 0:
                 

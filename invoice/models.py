@@ -130,3 +130,4 @@ class Units(models.Model):
     name=models.CharField(max_length=100,default=str(uuid.uuid4())[:8])
     short_name=models.CharField(max_length=100,default=str(uuid.uuid4())[:8])
     status=models.BooleanField()
+    
