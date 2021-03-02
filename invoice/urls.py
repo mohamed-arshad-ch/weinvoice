@@ -57,6 +57,11 @@ urlpatterns = [
     path('api/v1/report/inventory/status', InventoryStatusList.as_view(),name="inventory_list"),
     path('api/v1/report/inventory/lowstock', InventoryLowCountList.as_view(), name="inventory_lowcount"),
     path('api/v1/report/inventory/outofstock',InventoryOutOffCountList.as_view(),name="inventory_outoffstock"),
+    path('api/v1/unit/create',CreateUnits.as_view(),name="createunits"),
+    path('api/v1/unit/all',ListUnitPagination.as_view(), name="listunit"),
+    path('api/v1/unit/read/<str:pk>',UpdateUnits.as_view(),name="readunit"),
+    path('api/v1/unit/update/<str:pk>',UpdateUnits.as_view(), name="updateunit"),
+    path('api/v1/unit/delete/<str:pk>',UpdateUnits.as_view(),name="deleteunit"),
    
     
 ]

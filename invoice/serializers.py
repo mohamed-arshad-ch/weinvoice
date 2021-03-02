@@ -3,6 +3,7 @@ from .models import *
 from django.core.exceptions import ValidationError
 import datetime 
 import uuid
+# from django import everything_ok
 
 
 class InventorySerializer(serializers.ModelSerializer):
@@ -124,3 +125,17 @@ class UserAllSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = "__all__"
         extra_kwargs = {'password': {'write_only': True}}
+class UnitAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Units
+        fields="__all__"
+    def validate_unit(self,data):
+        try:
+            data = self.get_initial()
+            name = data.get(name)
+            user = Units.objects.get(name=name)
+        except Units.DoesNotExist:
+            return data
+
+           
+
