@@ -897,7 +897,7 @@ class CreateUnits(CreateModelMixin,generics.GenericAPIView):
             
             if units != 0:
                 
-                return Response({"data":"User Already Exist","status":"Error"},status=status.HTTP_200_OK)
+                return Response({"data":"Unit Already Exist","status":"Error"},status=status.HTTP_200_OK)
             else:
                 serializer = self.get_serializer(data=request.data)
                 serializer.is_valid(raise_exception=True)
