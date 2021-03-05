@@ -126,3 +126,9 @@ class TaxGroup(models.Model):
     hsn_cess = models.CharField(max_length=150)
     hsn_others = models.CharField(max_length=150)
     hsn_user_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])
+
+class Units(models.Model):
+    name=models.CharField(max_length=100,default=str(uuid.uuid4())[:8])
+    short_name=models.CharField(max_length=100,default=str(uuid.uuid4())[:8])
+    status=models.BooleanField()
+    

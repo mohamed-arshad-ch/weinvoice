@@ -3,9 +3,13 @@ from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
 import  os
+from django.db.models import Case, CharField, Value, When
+from django.core.paginator import Paginator
+
 from rest_framework import filters
 from webinvoice import settings as newsetting
 from datetime import date
+
 from django.core.files import File
 from io import BytesIO
 
@@ -20,6 +24,7 @@ from django.contrib.auth import authenticate
 from .sortconroll import *
 from django.contrib.auth import login
 from rest_framework.views import APIView
+from rest_framework import filters
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
@@ -28,6 +33,7 @@ from rest_framework.pagination import PageNumberPagination
 from  rest_framework.mixins import CreateModelMixin
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from datetime import date
 from knox.views import LoginView as KnoxLoginView
 # from pandas import *
 # Create your views here.
@@ -350,8 +356,6 @@ class CreateForCustomer(CreateModelMixin,generics.GenericAPIView):
 
 
         
-    
-
 class UpdateForCustomer(generics.UpdateAPIView):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
@@ -763,16 +767,29 @@ class InvoiceReportFilter(generics.GenericAPIView):
     queryset= Invoice.objects.all()
     serializer_class= InvoiceReadSerializer
     
-   
-    def get(self, request):
-        
 
+
+    def get(self, request):
+
+        name=request.GET.get("name")
+        fromdate=request.GET.get("from")
+        todate=request.GET.get("to")
+        instance= Invoice.objects.filter(date_created__range=[fromdate, todate], invoice_type=name)
+
+
+class InvoiceReportFilter(generics.GenericAPIView):
+    queryset=Inventory.objects.all()
+    serializer_class=InventorySerializer
+
+
+    def get(self, request):
         name=request.GET.get("name")
         fromdate=request.GET.get("from")
         todate=request.GET.get("to")
         
 
         instance= Invoice.objects.filter(date_created__range=[fromdate, todate], invoice_type=name)
+
         total=0
         for i in instance:
             total+=i.due_amount
@@ -781,9 +798,18 @@ class InvoiceReportFilter(generics.GenericAPIView):
         if instance.exists():
             serializer= InvoiceReadSerializer(instance, many=True)
             return Response({"data":serializer.data,"sales_price":total,"status":"success"})
+        else:
+            return Response({"data":"data not available", "status":"error"})
+
+
+
+        if instance.exists():
+            serializer= InvoiceReadSerializer(instance, many=True)
+            return Response({"data":serializer.data,"sales_price":total,"status":"success"})
 
         else:
             return Response({"data":"data not available", "status":"error"})
+
 
 
 class InventoryList(generics.GenericAPIView):
@@ -828,6 +854,7 @@ class InventoryStatusList(generics.GenericAPIView):
             total3+=i.due_amount
 
 
+
         return Response({"data":{"inventory_count":list_all,"outoffstock_count":outoff_stock,"low_stock":low_stock,"customer_count":list_customer,"sale_count":total1,"purchase_count":total2,"quotation_count":total3},"status":"success"})
 
 class InventoryLowCountList(generics.GenericAPIView):
@@ -861,3 +888,84 @@ class InventoryOutOffCountList(generics.GenericAPIView):
         else:
             return Response({"data":"data not available", "status":"error"})
 
+class CreateUnits(CreateModelMixin,generics.GenericAPIView):
+    serializer_class=UnitAllSerializer
+    def post(self,request, *args, **kwargs):
+      
+        try:
+            units = Units.objects.filter(name__iexact=request.data['name']).count()
+            
+            if units != 0:
+                
+                return Response({"data":"User Already Exist","status":"Error"},status=status.HTTP_200_OK)
+            else:
+                serializer = self.get_serializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                user = serializer.save()
+                return Response({"data":serializer.data,
+                    "status":"Success",
+                    "count": Units.objects.all().count(),
+                    "next": "",
+                    "previous":"",
+                
+                    },status=status.HTTP_200_OK)
+        except Units.DoesNotExist:
+            serializer = self.get_serializer(data=request.data)
+            
+            # serializer.is_valid(raise_exception=True)
+            # if serializer.is_valid():
+
+            #     user = serializer.save()
+            #     return Response({
+            #     "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            #     "token": AuthToken.objects.create(user)[1],
+            #     "status":"Success"
+            #     },status=status.HTTP_200_OK)
+            # else:
+            #     return Response({"data":['Passsword Not Match'],"status":"Error"},status=status.HTTP_200_OK)
+        
+class ListUnitPagination(generics.ListAPIView):
+    queryset = Units.objects.all()
+    serializer_class = UnitAllSerializer
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = ['name','short_name','status']
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+
+class UpdateUnits(generics.UpdateAPIView):
+    serializer_class = UnitAllSerializer
+    queryset = Units.objects.all()
+    def get(self,request,*args,**kwargs):
+        queryset = self.get_object()
+        serializer = self.get_serializer(queryset)
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+
+        serializer = UnitAllSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({"data":serializer.data,"status":"success"})
+        else:
+            errorr = serializer.errors
+            errorr['status'] = "Error"
+
+            return Response(errorr)
+        
+
+    def delete(self, request, *args, **kwargs):
+            instance = self.get_object()
+            instance.delete()
+            return Response({"status":"success","message":"deleted Successfully","status":"success"})
+    
+    
+    
+
+    
+        
+        
+        
+
+               
