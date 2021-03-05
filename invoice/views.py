@@ -904,25 +904,12 @@ class CreateUnits(CreateModelMixin,generics.GenericAPIView):
                 user = serializer.save()
                 return Response({"data":serializer.data,
                     "status":"Success",
-                    "count": Units.objects.all().count(),
-                    "next": "",
-                    "previous":"",
                 
                     },status=status.HTTP_200_OK)
         except Units.DoesNotExist:
             serializer = self.get_serializer(data=request.data)
             
-            # serializer.is_valid(raise_exception=True)
-            # if serializer.is_valid():
-
-            #     user = serializer.save()
-            #     return Response({
-            #     "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            #     "token": AuthToken.objects.create(user)[1],
-            #     "status":"Success"
-            #     },status=status.HTTP_200_OK)
-            # else:
-            #     return Response({"data":['Passsword Not Match'],"status":"Error"},status=status.HTTP_200_OK)
+           
         
 class ListUnitPagination(generics.ListAPIView):
     queryset = Units.objects.all()
