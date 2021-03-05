@@ -125,6 +125,7 @@ class UserAllSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = "__all__"
         extra_kwargs = {'password': {'write_only': True}}
+        
 class UnitAllSerializer(serializers.ModelSerializer):
     class Meta:
         model=Units

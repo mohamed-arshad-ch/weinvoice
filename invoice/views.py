@@ -947,7 +947,13 @@ class UpdateUnits(generics.UpdateAPIView):
             instance.delete()
             return Response({"status":"success","message":"deleted Successfully","status":"success"})
     
+class PartialSearchForUnits(generics.ListAPIView):
+    queryset = Units.objects.all()
+    serializer_class = UnitAllSerializer
     
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    
+    search_fields = ['name'] 
     
 
     
