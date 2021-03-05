@@ -9,7 +9,7 @@ import uuid
 class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
-        fields = ('id','date_time_created','date_created', 'name', 'hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others')
+        fields = ('id','date_time_created','date_created', 'name', 'hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others','barcode')
         
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -61,7 +61,9 @@ class ComponySerializer(serializers.ModelSerializer):
 
 class ExcelConvert(serializers.Serializer):
     files = serializers.FileField()
-
+    
+    class Meta:
+        fields = ['files']
 
 class TaxSerializer(serializers.ModelSerializer):
 
@@ -125,7 +127,7 @@ class UserAllSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = "__all__"
         extra_kwargs = {'password': {'write_only': True}}
-        
+
 class UnitAllSerializer(serializers.ModelSerializer):
     class Meta:
         model=Units

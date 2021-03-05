@@ -502,7 +502,8 @@ class SortForCompany(generics.ListAPIView):
 class ExcelConvert(generics.CreateAPIView):
     serializer_class = ExcelConvert
     def post(self,request):
-        pass
+        print(request.data)
+        # excelfile = request.FILES.get("excelfile")
         # xls = ExcelFile('static/tests-example.xls')
         # data = xls.parse(xls.sheet_names[0])
         # # print(data.to_dict())
@@ -660,12 +661,7 @@ class LoginAPI(KnoxLoginView):
             return newdd
         else:
             return Response({"data":"Invalid UserName And Password","status":"Error"})
-        # try:
-        #     user = CustomUser.objects.get(phone=request.data['phone'],password=request.data['password'])
-        #     login(request,user)
-        #     return super(LoginAPI, self).post(request, format=None)
-        # except CustomUser.DoesNotExist:
-        #     return Response({"data":"Invalid UserName And Password","Type":"Error"})
+        
 
 
 class UpdateForUser(generics.UpdateAPIView):
