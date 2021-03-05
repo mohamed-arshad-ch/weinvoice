@@ -48,15 +48,17 @@
       text-align: right !important;
     }
 
-    table,
-    th,
-    td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
+   
 
     th {
       text-align: left;
+    }
+    .total-field{
+      text-align: right  !important;
+    }
+    .main-table1,.main-tr,.sub-tr{
+      border: 1px solid black;
+      border-collapse: collapse;
     }
   </style>
 </head>
@@ -83,8 +85,8 @@
       </div>
 
       <div class="item-details">
-        <table style="width:100%">
-          <tr>
+        <table class="main-table1" style="width:100%">
+          <tr class="main-tr">
             <th>Sl No</th>
             <th>Item Description</th>
             <th>Price</th>
@@ -96,7 +98,7 @@
           </tr>
 
           {% for items in instance.product_list.all %}
-          <tr>
+          <tr class="sub-tr">
             <td>#</td>
             <td>{{items.product.name}}</td>
             <td>{{items.product.sales_price}}</td>
@@ -112,8 +114,42 @@
 
         </table>
       </div>
+      <br>
+      <br>
       <div class="total-field">
-        othersothers
+        
+        <table  >
+          
+
+          
+          <tr>
+            <td><h5>SubTotal</h5></td>
+            <td>{{instance.company_name}}</td>
+            
+
+          </tr>
+          <tr>
+            <td><h5>CGST</h5></td>
+            <td>{{instance.company_name}}</td>
+            
+
+          </tr>
+          <tr>
+            <td><h5>SGST</h5></td>
+            <td>{{instance.company_name}}</td>
+            
+
+          </tr>
+          <tr>
+            <td><h4>Net Amount</h4></td>
+            <td>{{instance.company_name}}</td>
+            
+
+          </tr>
+          
+
+
+        </table>
       </div>
     </div>
 </body>

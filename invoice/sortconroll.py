@@ -39,7 +39,11 @@ class CreateInvoiceController:
         state = self.data['state']
         typeof = self.data['invoice_type']
 
-        cust, created = Customer.objects.get_or_create(name=name,logo=logo,address=address,city=city,location=location,pincode=pincode,state=state,district=district,gst_number=gst_number,gst_type=gst_type,email=email,phone=phone)
+        
+        if len(name) == 0:
+            cust, created = Customer.objects.get_or_create(name="Cash",gst_number="0")
+        else:
+            cust, created = Customer.objects.get_or_create(name=name,logo=logo,address=address,city=city,location=location,pincode=pincode,state=state,district=district,gst_number=gst_number,gst_type=gst_type,email=email,phone=phone)
         invoice = Invoice()
         invoice.customer = cust
         invoice.company_name = company_name

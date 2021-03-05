@@ -155,7 +155,7 @@ class UpdateForCustomer(generics.UpdateAPIView):
             
             
             return Response({"data":serializer.data,"status":"success"})
-        except Snippet.DoesNotExist:
+        except Customer.DoesNotExist:
             return Response({"status":"error"},status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, *args, **kwargs):
