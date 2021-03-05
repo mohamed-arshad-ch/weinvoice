@@ -504,20 +504,25 @@ class SortForCompany(generics.ListAPIView):
 class ExcelConvert(generics.CreateAPIView):
     serializer_class = ExcelConvert
     def post(self,request):
-        request_file = request.FILES['files'] if 'files' in request.FILES else None
-        if request_file: 
-             
-            fs = FileSystemStorage() 
-            file = fs.save(request_file.name, request_file) 
-            
-            fileurl = fs.url(file) 
-            print(fileurl)
-        conver_to_pdf = pandas.read_excel('static/img/inventory.xlsx')
-        excel_datas = conver_to_pdf.to_dict('records')
-    
-        for i in range(len(excel_datas)):
-            inventory = Inventory.objects.create(name=excel_datas[i]['name'],hsn=excel_datas[i]['hsn'],base_price=excel_datas[i]['base_price'],sales_price=excel_datas[i]['sales_price'],stock=excel_datas[i]['stock'],unit=excel_datas[i]['unit'],cgst=excel_datas[i]['cgst'],sgst=excel_datas[i]['sgst'],cess=excel_datas[i]['cess'],others=excel_datas[i]['others'],barcode=excel_datas[i]['barcode'])
-        return Response({"data":excel_datas})
+        try:
+            request_file = request.FILES['files'] if 'files' in request.FILES else None
+            if request_file: 
+                
+                fs = FileSystemStorage() 
+                file = fs.save(request_file.name, request_file) 
+                
+                fileurl = fs.url(file) 
+                
+                
+            main_url = 'static{0}'.format(fileurl)
+            conver_to_pdf = pandas.read_excel(main_url)
+            excel_datas = conver_to_pdf.to_dict('records')
+        
+            for i in range(len(excel_datas)):
+                inventory = Inventory.objects.create(name=excel_datas[i]['name'],hsn=excel_datas[i]['hsn'],base_price=excel_datas[i]['base_price'],sales_price=excel_datas[i]['sales_price'],stock=excel_datas[i]['stock'],unit=excel_datas[i]['unit'],cgst=excel_datas[i]['cgst'],sgst=excel_datas[i]['sgst'],cess=excel_datas[i]['cess'],others=excel_datas[i]['others'],barcode=excel_datas[i]['barcode'])
+            return Response({"data":"Inventory Added Successfully","status":"success"})
+        except Exception as e:
+            return Response({"data":"Invalid Excel File","status":"Error"})
 
     
 
