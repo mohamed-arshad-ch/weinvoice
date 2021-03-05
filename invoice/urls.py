@@ -65,6 +65,6 @@ urlpatterns = [
     path('api/v1/unit/delete/<str:pk>',UpdateUnits.as_view(),name="deleteunit"),
     path('api/v1/unit/search',PartialSearchForUnits.as_view(),name="searchunit"),
 
-    path('api/v1/product/excel',ExcelConvert.as_view())
+    path('api/v1/inventory/excel',ExcelConvert.as_view())
     
 ]
