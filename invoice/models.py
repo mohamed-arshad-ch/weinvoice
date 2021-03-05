@@ -128,7 +128,8 @@ class TaxGroup(models.Model):
     hsn_user_id = models.CharField(max_length=150,default=str(uuid.uuid4())[:8])
 
 class Units(models.Model):
+    date_created = models.DateField(auto_now_add=True)
     name=models.CharField(max_length=100,default=str(uuid.uuid4())[:8])
     short_name=models.CharField(max_length=100,default=str(uuid.uuid4())[:8])
-    status=models.BooleanField()
+    status=models.BooleanField(default=True)
     
