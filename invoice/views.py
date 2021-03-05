@@ -3,6 +3,7 @@ from rest_framework import generics, permissions,viewsets
 from rest_framework.response import Response
 from .serializers import *
 import  os
+import pandas
 from django.db.models import Case, CharField, Value, When
 from django.core.paginator import Paginator
 
@@ -92,12 +93,12 @@ class SortInventory(generics.ListAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others']
+    filterset_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others','barcode']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others']
+    ordering_fields = ['date_created','name','hsn','base_price','sales_price','stock','unit','cgst','sgst','cess','others','barcode']
 
 class PartialSearch(generics.ListAPIView):
     
@@ -505,15 +506,11 @@ class ExcelConvert(generics.CreateAPIView):
         print(request.data)
         # excelfile = request.FILES.get("excelfile")
         # xls = ExcelFile('static/tests-example.xls')
-        # data = xls.parse(xls.sheet_names[0])
-        # # print(data.to_dict())
-        # full = data.to_dict()
+        travel_df = pandas.read_excel('static/inventory.xlsx')
+        cities = travel_df.to_dict('records')
+        print(cities[0])
+        return Response({"data":cities})
 
-        # for i in full:
-            
-            
-        #     for j in range(len(full[i])):
-        #         print(full['id'][j])
     
 
 class CreateForTax(generics.CreateAPIView):
