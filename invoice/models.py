@@ -14,8 +14,10 @@ class CustomUser(AbstractUser):
     user_status = models.BooleanField(blank=False,null=False,default=True)
     unique_id = models.CharField(max_length=100,default=str(uuid.uuid4())[:8],primary_key=True)
     token = models.TextField()
+    permissions = models.JSONField()
+
     def __str__(self):
-        return self.phone
+        return str(self.unique_id)
 
 
 class Inventory(models.Model):
