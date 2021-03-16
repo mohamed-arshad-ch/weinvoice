@@ -76,7 +76,7 @@ class TaxSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ( 'unique_id','phone','email','password')
+        fields = ( 'unique_id','phone','email','password','permissions')
         # extra_kwargs = {'password': {'write_only': True}}
 
 
