@@ -82,20 +82,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
-    numberofdate = serializers.IntegerField()
     confirmpassword = serializers.CharField()
     class Meta:
         model = CustomUser
-        fields = ('numberofdate', 'phone','first_name','last_name', 'email','subscription_plan','password','confirmpassword','permissions')
+        fields = ( 'phone','first_name','last_name', 'email','password','confirmpassword','permissions')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        today = datetime.date.today()
-        numertime = validated_data['numberofdate']
-        enddate =  today + datetime.timedelta(days=numertime)
+       
        
         print(validated_data)
-        user = CustomUser.objects.create(unique_id=str(uuid.uuid4())[:8],username=validated_data['phone'],first_name=validated_data['first_name'],last_name=validated_data['last_name'],phone=validated_data['phone'],email=validated_data['email'],subscription_plan=validated_data['subscription_plan'],subscription_end=enddate,permissions=validated_data['permissions'])
+        user = CustomUser.objects.create(unique_id=str(uuid.uuid4())[:8],username=validated_data['phone'],first_name=validated_data['first_name'],last_name=validated_data['last_name'],phone=validated_data['phone'],email=validated_data['email'],permissions=validated_data['permissions'])
         user.set_password(validated_data['password'])
         user.save()
 

@@ -713,12 +713,12 @@ class SortForUser(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserAllSerializer
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['phone','subscription_plan', 'subscription_start','subscription_end','subscription_status','user_status','unique_id','email','first_name','last_name']
+    filterset_fields = ['phone','user_status','unique_id','email','first_name','last_name']
     pagination_class = PageNumberPagination
     pagination_class.page_size_query_param = 'limit'
     
     
-    ordering_fields = ['phone','subscription_plan', 'subscription_start','subscription_end','subscription_status','user_status','unique_id','email','first_name','last_name']
+    ordering_fields = ['phone','user_status','unique_id','email','first_name','last_name']
 
 
 class SortForToken(generics.ListAPIView):
