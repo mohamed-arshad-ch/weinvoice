@@ -144,4 +144,7 @@ class UnitAllSerializer(serializers.ModelSerializer):
             return data
 
            
-
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Order
+        fields="__all__"

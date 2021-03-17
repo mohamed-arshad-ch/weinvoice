@@ -691,11 +691,8 @@ class UpdateForUser(generics.UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
-        # print(instance.set_password(request.data['password']))
         
-        
-        # instance.set_password(request.data.get("password"))
-        # instance.save()
+
 
         serializer = self.get_serializer(instance,data=request.data, partial=True)
         if serializer.is_valid():
@@ -973,7 +970,91 @@ class PartialSearchForUnits(generics.ListAPIView):
     
 
     
+
+#order module
+
+class CreateForOrder(generics.CreateAPIView):
+    queryset =Order.objects.all()
+    serializer_class = OrderSerializer
+    
+    def post(self, request, *args, **kwargs):
         
+        serializer = self.get_serializer(data=request.data)
+        
+        
+        to_return = {}
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({
+            "data": OrderSerializer(data, context=self.get_serializer_context()).data,
+            "status": "success"
+            })
+        else:
+            vva = serializer.errors
+            to_return['data'] = vva
+            # print(vva['name'].ErrorDetail[0])
+            to_return['status'] = "Error"
+
+            
+            return Response(to_return)
+       
+
+
+
+
+
+
+
+       
+
+
+
+
+class UpdateForOrder(generics.UpdateAPIView):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    def get(self,request,*args,**kwargs):
+        try:
+            queryset = Order.objects.get(pk=kwargs['pk'])
+            serializer = OrderSerializer(queryset)
+            
+            
+            return Response({"data":serializer.data,"status":"success"})
+        except TaxGroup.DoesNotExist:
+            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_200_OK)
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+
+        serializer = OrderSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            data = serializer.save()
+            return Response({"data":OrderSerializer(data, context=self.get_serializer_context()).data,"status":"success"})
+        else:
+            errorr = serializer.errors
+            errorr['status'] = "Error"
+
+            return Response(errorr)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"status":"success","message":"deleted Successfully","status":"success"})
+
+
+class SortForOrder(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = "__all__"
+    pagination_class = PageNumberPagination
+    pagination_class.page_size_query_param = 'limit'
+    
+    
+    ordering_fields = "__all__"
+
+
         
         
 

@@ -131,3 +131,14 @@ class Units(models.Model):
     short_name=models.CharField(max_length=100,default=str(uuid.uuid4())[:8])
     status=models.BooleanField(default=True)
     
+
+class Order(models.Model):
+    requirments = models.CharField(null=False,blank=False,max_length=200)
+    status = models.CharField(max_length=150,default="pending")
+    delivary_date = models.DateField()
+    delivary_approved_date = models.DateField()
+    order_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.id)
+    

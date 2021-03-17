@@ -65,6 +65,13 @@ urlpatterns = [
     path('api/v1/unit/delete/<str:pk>',UpdateUnits.as_view(),name="deleteunit"),
     path('api/v1/unit/search',PartialSearchForUnits.as_view(),name="searchunit"),
 
-    path('api/v1/inventory/excel',ExcelConvert.as_view())
+    path('api/v1/inventory/excel',ExcelConvert.as_view()),
+
+
+    path('api/v1/order/create', CreateForOrder.as_view(),name="date_field"),
+    path('api/v1/order/list', SortForOrder.as_view(),name="date_field"),
+    path('api/v1/order/read/<int:pk>', UpdateForOrder.as_view(),name="inventory_list"),
+    path('api/v1/order/update/<int:pk>', UpdateForOrder.as_view(), name="inventory_lowcount"),
+    path('api/v1/order/delete/<int:pk>',UpdateForOrder.as_view(),name="inventory_outoffstock"),
     
 ]
