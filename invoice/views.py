@@ -699,7 +699,7 @@ class UpdateForUser(generics.UpdateAPIView):
 
         serializer = self.get_serializer(instance,data=request.data, partial=True)
         if serializer.is_valid():
-            self.partial_update(serializer)
+            self.perform_update(serializer)
             if request.data.get("password"):
                 instance.set_password(request.data.get('password'))
                 instance.save()
