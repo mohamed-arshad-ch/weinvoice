@@ -687,16 +687,23 @@ class UpdateForUser(generics.UpdateAPIView):
             
             return Response({"data":serializer.data,"status":"success"})
         except CustomUser.DoesNotExist:
-            return Response({"data":"Invoice Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"data":"User Not Exist","status":"error"},status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
+        # print(instance.set_password(request.data['password']))
         
+        
+        # instance.set_password(request.data.get("password"))
+        # instance.save()
 
-        serializer = UserAllSerializer(instance, data=request.data, partial=True)
+        serializer = self.get_serializer(instance,data=request.data, partial=True)
         if serializer.is_valid():
-            data = serializer.save()
-            return Response({"data":UserAllSerializer(data, context=self.get_serializer_context()).data,"status":"success"})
+            self.perform_update(serializer)
+            instance.set_password(request.data.get('password'))
+            instance.save()
+            print(instance.password)
+            return Response({"data":serializer.data,"status":"success"})
         else:
             errorr = serializer.errors
             errorr['status'] = "Error"

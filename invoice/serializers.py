@@ -97,6 +97,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+    
        
 
     def validate_password(self,data):
@@ -124,6 +126,9 @@ class UserAllSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = "__all__"
         extra_kwargs = {'password': {'write_only': True}}
+
+
+        
 
 class UnitAllSerializer(serializers.ModelSerializer):
     class Meta:
