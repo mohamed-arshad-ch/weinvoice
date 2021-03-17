@@ -136,7 +136,7 @@ class Order(models.Model):
     requirements = models.CharField(null=False,blank=False,max_length=200)
     status = models.CharField(max_length=150,default="pending")
     delivery_date = models.DateField()
-    delivery_approved_date = models.DateField()
+    delivery_approved_date = models.DateField(null=True,blank=True)
     order_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
