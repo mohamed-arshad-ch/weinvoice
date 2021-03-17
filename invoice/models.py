@@ -133,10 +133,10 @@ class Units(models.Model):
     
 
 class Order(models.Model):
-    requirments = models.CharField(null=False,blank=False,max_length=200)
+    requirements = models.CharField(null=False,blank=False,max_length=200)
     status = models.CharField(max_length=150,default="pending")
-    delivary_date = models.DateField()
-    delivary_approved_date = models.DateField()
+    delivery_date = models.DateField()
+    delivery_approved_date = models.DateField()
     order_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
